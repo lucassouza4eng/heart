@@ -41,9 +41,14 @@
       justify-content: center;
       z-index: 9999;
       overflow: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    /* Canvas para os corações caindo/subindo no fundo */
+    .login-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
     #heartsBgCanvas {
       position: absolute;
       top: 0;
@@ -52,13 +57,14 @@
       height: 100%;
       z-index: 1;
       pointer-events: none;
+      transition: opacity 0.8s ease;
     }
 
-    /* Caixinha de Login com Bordas Arredondadas e Fundo Desfocado */
+    /* Caixinha de Login oculta por padrão */
     .login-card {
       position: relative;
       z-index: 2;
-      background: rgba(20, 10, 30, 0.55);
+      background: rgba(20, 10, 30, 0.6);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(168, 85, 247, 0.35);
@@ -68,10 +74,23 @@
       max-width: 380px;
       text-align: center;
       box-shadow: 0 10px 40px rgba(168, 85, 247, 0.25), 0 0 20px rgba(0, 0, 0, 0.8);
+      
+      /* Entrada suave */
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      pointer-events: none;
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Classe para entrada suave */
+    .login-card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
     }
 
     .login-card h2 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #e9d5ff;
       margin-bottom: 24px;
       font-weight: 600;
@@ -123,12 +142,44 @@
       transform: translateY(-2px);
     }
 
-    .error-msg {
-      color: #ff4d4d;
-      font-size: 0.85rem;
-      margin-top: 14px;
+    /* --- TELA DE ERRO (BLOQUEIO) --- */
+    .blocked-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
       display: none;
-      text-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .blocked-screen p {
+      color: #ff4d4d;
+      font-size: 1.3rem;
+      font-weight: 600;
+      line-height: 1.5;
+      text-shadow: 0 0 12px rgba(255, 77, 77, 0.7);
+      max-width: 500px;
+    }
+
+    /* --- POEMA DE AMOR --- */
+    .poem-box {
+      background: rgba(20, 10, 30, 0.5);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 15px;
+      color: #e9d5ff;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
     }
 
     /* --- CONTEÚDO DO SITE --- */
@@ -140,8 +191,14 @@
       border-radius: 12px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       overflow: hidden;
-      display: none; /* Escondido até o login */
+      display: none;
       flex-direction: column;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .editor-container.visible {
+      opacity: 1;
     }
 
     .window-header {
@@ -273,17 +330,21 @@
 </head>
 <body>
 
-  <!-- TELA DE LOGIN COM ANIMAÇÃO -->
+  <!-- TELA DE LOGIN -->
   <div class="login-overlay" id="loginOverlay">
     <canvas id="heartsBgCanvas"></canvas>
 
-    <div class="login-card">
-      <h2>deseja acessar o conteudo da pagina? 💗</h2>
+    <div class="login-card" id="loginCard">
+      <h2>voce quer realmente acessar a pagina??</h2>
       <input type="text" id="userInput" placeholder="Usuário">
       <input type="password" id="passInput" placeholder="Senha">
       <button onclick="validarLogin()">Entrar</button>
-      <div class="error-msg" id="errorMsg">Usuário ou senha incorretos!</div>
     </div>
+  </div>
+
+  <!-- TELA DE ERRO (BLOQUEIO TOTAL) -->
+  <div class="blocked-screen" id="blockedScreen">
+    <p>exclusivamente exclusivo para a yasmin, se voce nao for vai tomar no cu</p>
   </div>
 
   <!-- CONTEÚDO DO SITE -->
@@ -298,6 +359,11 @@
         <span>para yasmim 💗</span>
       </div>
       <div style="width: 50px;"></div>
+    </div>
+
+    <!-- POEMA DE AMOR PERSONALIZADO -->
+    <div class="poem-box">
+      "se eu tivesse que escrever um poema de amor, colocaria seu nome, ja que e oque mais me lembra amor" 💜
     </div>
 
     <div class="editor-body">
@@ -355,7 +421,12 @@ done()</div>
   </div>
 
   <script>
-    // --- LÓGICA DA ANIMAÇÃO DOS CORAÇÕES ROXOS NO FUNDO DO LOGIN ---
+    // --- APARECIMENTO SUAVE DA CAIXINHA APÓS 2 SEGUNDOS ---
+    setTimeout(() => {
+      document.getElementById('loginCard').classList.add('visible');
+    }, 2000);
+
+    // --- ANIMAÇÃO DOS CORAÇÕES ROXOS ---
     const bgCanvas = document.getElementById('heartsBgCanvas');
     const bgCtx = bgCanvas.getContext('2d');
 
@@ -367,7 +438,7 @@ done()</div>
     window.addEventListener('resize', resizeBgCanvas);
 
     const heartsArray = [];
-    const totalHearts = 50; // Quantidade de corações flutuantes
+    const totalHearts = 50;
 
     class FloatingHeart {
       constructor() {
@@ -377,11 +448,10 @@ done()</div>
       reset(firstTime = false) {
         this.x = Math.random() * bgCanvas.width;
         this.y = firstTime ? Math.random() * bgCanvas.height : bgCanvas.height + 20;
-        this.size = Math.random() * 12 + 8; // Tamanhos pequenos e variados
+        this.size = Math.random() * 12 + 8;
         this.speedY = Math.random() * 1.5 + 0.5;
         this.speedX = Math.sin(Math.random() * Math.PI * 2) * 0.5;
         this.opacity = Math.random() * 0.6 + 0.3;
-        // Tons de roxo vibrante
         const purpleTones = ['#a855f7', '#c084fc', '#9333ea', '#d8b4fe', '#7e22ce'];
         this.color = purpleTones[Math.floor(Math.random() * purpleTones.length)];
       }
@@ -402,7 +472,6 @@ done()</div>
         bgCtx.shadowColor = this.color;
         bgCtx.shadowBlur = 8;
 
-        // Desenhar forma do coração
         bgCtx.beginPath();
         const topCurveHeight = this.size * 0.3;
         bgCtx.moveTo(this.x, this.y + topCurveHeight);
@@ -454,19 +523,36 @@ done()</div>
     function validarLogin() {
       const user = document.getElementById('userInput').value;
       const pass = document.getElementById('passInput').value;
-      const errorMsg = document.getElementById('errorMsg');
+      const overlay = document.getElementById('loginOverlay');
 
       if (user === usuarioCorreto && pass === senhaCorreta) {
-        cancelAnimationFrame(bgAnimationId); // Parar animação de fundo
-        document.getElementById('loginOverlay').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'flex';
-        iniciarAnimacao();
+        // Sucesso: Esconde o login com fade-out
+        overlay.classList.add('fade-out');
+
+        setTimeout(() => {
+          cancelAnimationFrame(bgAnimationId);
+          overlay.style.display = 'none';
+          
+          const mainContent = document.getElementById('mainContent');
+          mainContent.style.display = 'flex';
+          setTimeout(() => {
+            mainContent.classList.add('visible');
+          }, 50);
+
+          iniciarAnimacao();
+        }, 800);
+
       } else {
-        errorMsg.style.display = 'block';
+        // Erro: Esconde o login e mostra a tela preta com mensagem
+        overlay.classList.add('fade-out');
+        setTimeout(() => {
+          cancelAnimationFrame(bgAnimationId);
+          overlay.style.display = 'none';
+          document.getElementById('blockedScreen').style.display = 'flex';
+        }, 800);
       }
     }
 
-    // Permitir pressionar Enter para entrar
     document.getElementById('passInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') validarLogin();
     });
