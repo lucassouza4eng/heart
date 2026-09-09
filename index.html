@@ -6,7 +6,7 @@
   <title>para yasmim 💗</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -24,7 +24,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 40px 15px;
+      padding: 30px 15px;
       overflow-x: hidden;
     }
 
@@ -60,7 +60,6 @@
       transition: opacity 0.8s ease;
     }
 
-    /* Caixinha de Login oculta por padrão */
     .login-card {
       position: relative;
       z-index: 2;
@@ -75,14 +74,12 @@
       text-align: center;
       box-shadow: 0 10px 40px rgba(168, 85, 247, 0.25), 0 0 20px rgba(0, 0, 0, 0.8);
       
-      /* Entrada suave */
       opacity: 0;
       transform: translateY(30px) scale(0.95);
       pointer-events: none;
       transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Classe para entrada suave */
     .login-card.visible {
       opacity: 1;
       transform: translateY(0) scale(1);
@@ -142,6 +139,55 @@
       transform: translateY(-2px);
     }
 
+    /* --- ANIMAÇÃO DE REVELAÇÃO "PARA YASMIN" + EXPLOSÃO --- */
+    .intro-animation-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      overflow: hidden;
+    }
+
+    .intro-text-box {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #e9d5ff;
+      text-shadow: 0 0 20px rgba(168, 85, 247, 0.9), 0 0 40px rgba(192, 132, 252, 0.6);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .intro-text-box.show {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .intro-text-box.explode {
+      opacity: 0;
+      transform: scale(2.2);
+      filter: blur(10px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out, filter 0.5s ease-out;
+    }
+
+    #explosionCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
     /* --- TELA DE ERRO (BLOQUEIO) --- */
     .blocked-screen {
       position: fixed;
@@ -167,7 +213,7 @@
       max-width: 500px;
     }
 
-    /* --- CONTEÚDO PRINCIPAL (LAYOUT VERTICAL) --- */
+    /* --- CONTEÚDO PRINCIPAL --- */
     .main-container {
       width: 100%;
       max-width: 650px;
@@ -176,7 +222,7 @@
       align-items: center;
       gap: 25px;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1.2s ease;
     }
 
     .main-container.visible {
@@ -225,10 +271,82 @@
       font-weight: 500;
     }
 
+    /* BLOCO DE IDIOMAS */
+    .languages-card {
+      width: 100%;
+      background: rgba(15, 8, 25, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 20px;
+      padding: 28px 20px;
+      margin-top: 10px;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+    }
+
+    .languages-card h3 {
+      text-align: center;
+      color: #c084fc;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+
+    .lang-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      font-size: 0.95rem;
+    }
+
+    .lang-item .lang-name {
+      color: #a855f7;
+      font-weight: 500;
+    }
+
+    .lang-item .lang-text {
+      color: #ffffff;
+      font-style: italic;
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+    }
+
+    .lang-item.highlight {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(192, 132, 252, 0.6);
+      padding: 14px;
+    }
+
+    .lang-item.highlight .lang-name {
+      color: #e9d5ff;
+      font-size: 1.05rem;
+    }
+
+    .lang-item.highlight .lang-text {
+      color: #ffffff;
+      font-size: 1.1rem;
+      text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
+    }
+
     @media (max-width: 600px) {
       .poem-card {
         font-size: 0.95rem;
         padding: 20px 16px;
+      }
+      .lang-item {
+        font-size: 0.88rem;
+      }
+      .intro-text-box {
+        font-size: 1.8rem;
       }
     }
   </style>
@@ -247,30 +365,34 @@
     </div>
   </div>
 
+  <!-- TELA DE INTRODUÇÃO ("PARA YASMIN" + EXPLOSÃO) -->
+  <div class="intro-animation-screen" id="introScreen">
+    <canvas id="explosionCanvas"></canvas>
+    <div class="intro-text-box" id="introText">para yasmin 💖</div>
+  </div>
+
   <!-- TELA DE ERRO (BLOQUEIO TOTAL) -->
   <div class="blocked-screen" id="blockedScreen">
     <p>exclusivamente exclusivo para a yasmin, se voce nao for vai tomar no cu</p>
   </div>
 
-  <!-- CONTEÚDO DO SITE (POEMAS ROLÁVEIS NA VERTICAL) -->
+  <!-- CONTEÚDO DO SITE -->
   <div class="main-container" id="mainContent">
 
-    <!-- DESENHO DO CORAÇÃO ROXO -->
+    <!-- 1º ELEMENTO: CORAÇÃO NO TOPO -->
     <div class="heart-preview-box">
       <canvas id="heartCanvas" width="320" height="320"></canvas>
     </div>
 
-    <!-- POEMA INTRODUÇÃO -->
+    <!-- POEMAS -->
     <div class="poem-card intro">
       "se eu tivesse que escrever um poema de amor, colocaria seu nome, ja que e oque mais me lembra amor" 💜
     </div>
 
-    <!-- POEMA 1 -->
     <div class="poem-card">
       você é a minha poesia preferida. e enquanto eu existir, vou escrever o teu nome em tudo o que me faz feliz. em tudo o que for leve. em tudo o que for amor.
     </div>
 
-    <!-- POEMA 2 -->
     <div class="poem-card">
 espero que
 
@@ -289,25 +411,72 @@ te amo com
 toda a minha alma
     </div>
 
-    <!-- POEMA 3 -->
     <div class="poem-card">
 eu me apaixonei até pelas letras do seu nome, me apaixonei pelo seu jeito, me apaixonei pela sua voz, me apaixonei pela sua risada, me apaixonei pela forma que você me trata com tanto carinho, me apaixonei pelo jeito que você cuida de mim, eu simplesmente me apaixonei por você ser você, eu sou completamente apaixonado por você
     </div>
 
-    <!-- POEMA 4 -->
     <div class="poem-card">
 no silêncio do meu coração, você é a canção mais bela que ecoa dentro dele.
+    </div>
+
+    <!-- 35 IDIOMAS NO FINAL DA PÁGINA (1º FRANCÊS / 35º PORTUGUÊS) -->
+    <div class="languages-card">
+      <h3>"Eu Te Amo" em 35 Idiomas 💖</h3>
+      <div class="lang-list">
+        
+        <div class="lang-item"><span class="lang-name">1. Francês</span><span class="lang-text">Je t'aime</span></div>
+        <div class="lang-item"><span class="lang-name">2. Inglês</span><span class="lang-text">I love you</span></div>
+        <div class="lang-item"><span class="lang-name">3. Espanhol</span><span class="lang-text">Te amo</span></div>
+        <div class="lang-item"><span class="lang-name">4. Italiano</span><span class="lang-text">Ti amo</span></div>
+        <div class="lang-item"><span class="lang-name">5. Alemão</span><span class="lang-text">Ich liebe dich</span></div>
+        <div class="lang-item"><span class="lang-name">6. Holandês</span><span class="lang-text">Ik hou van je</span></div>
+        <div class="lang-item"><span class="lang-name">7. Russo</span><span class="lang-text">Я тебя люблю (Ya tebya lyublyu)</span></div>
+        <div class="lang-item"><span class="lang-name">8. Mandarim</span><span class="lang-text">我爱你 (Wǒ ài nǐ)</span></div>
+        <div class="lang-item"><span class="lang-name">9. Japonês</span><span class="lang-text">愛してる (Aishiteru)</span></div>
+        <div class="lang-item"><span class="lang-name">10. Coreano</span><span class="lang-text">사랑해 (Saranghae)</span></div>
+        <div class="lang-item"><span class="lang-name">11. Árabe</span><span class="lang-text">أحبك (Uhibbuki)</span></div>
+        <div class="lang-item"><span class="lang-name">12. Hindi</span><span class="lang-text">मैं तुमसे प्यार करता हूँ (Main tumse pyar karta hoon)</span></div>
+        <div class="lang-item"><span class="lang-name">13. Turco</span><span class="lang-text">Seni seviyorum</span></div>
+        <div class="lang-item"><span class="lang-name">14. Grego</span><span class="lang-text">Σ' αγαπώ (S'agapo)</span></div>
+        <div class="lang-item"><span class="lang-name">15. Polonês</span><span class="lang-text">Kocham cię</span></div>
+        <div class="lang-item"><span class="lang-name">16. Sueco</span><span class="lang-text">Jag älskar dig</span></div>
+        <div class="lang-item"><span class="lang-name">17. Norueguês</span><span class="lang-text">Jeg elsker deg</span></div>
+        <div class="lang-item"><span class="lang-name">18. Dinamarquês</span><span class="lang-text">Jeg elsker dig</span></div>
+        <div class="lang-item"><span class="lang-name">19. Finlandês</span><span class="lang-text">Minä rakastan sinua</span></div>
+        <div class="lang-item"><span class="lang-name">20. Tcheco</span><span class="lang-text">Miluji tě</span></div>
+        <div class="lang-item"><span class="lang-name">21. Húngaro</span><span class="lang-text">Szeretlek</span></div>
+        <div class="lang-item"><span class="lang-name">22. Romeno</span><span class="lang-text">Te iubesc</span></div>
+        <div class="lang-item"><span class="lang-name">23. Ucraniano</span><span class="lang-text">Я тебе люблю (Ya tebe lyublyu)</span></div>
+        <div class="lang-item"><span class="lang-name">24. Hebraico</span><span class="lang-text">אני אוהב אותך (Ani ohev otach)</span></div>
+        <div class="lang-item"><span class="lang-name">25. Vietnamita</span><span class="lang-text">Anh yêu em</span></div>
+        <div class="lang-item"><span class="lang-name">26. Tailandês</span><span class="lang-text">ฉันรักคุณ (Chan rak khun)</span></div>
+        <div class="lang-item"><span class="lang-name">27. Indonésio</span><span class="lang-text">Aku cinta kamu</span></div>
+        <div class="lang-item"><span class="lang-name">28. Malaio</span><span class="lang-text">Saya sayang awak</span></div>
+        <div class="lang-item"><span class="lang-name">29. Tagalo (Filipino)</span><span class="lang-text">Mahal kita</span></div>
+        <div class="lang-item"><span class="lang-name">30. Suaíli</span><span class="lang-text">Nakupenda</span></div>
+        <div class="lang-item"><span class="lang-name">31. Irlandês</span><span class="lang-text">Is aoibhinn liom tú</span></div>
+        <div class="lang-item"><span class="lang-name">32. Galês</span><span class="lang-text">Rwy'n dy garu di</span></div>
+        <div class="lang-item"><span class="lang-name">33. Catalão</span><span class="lang-text">T'estimo</span></div>
+        <div class="lang-item"><span class="lang-name">34. Galego</span><span class="lang-text">Quérote</span></div>
+
+        <!-- 35º E ÚLTIMO -->
+        <div class="lang-item highlight">
+          <span class="lang-name">35. Português</span>
+          <span class="lang-text">Eu te amo ❤️</span>
+        </div>
+
+      </div>
     </div>
 
   </div>
 
   <script>
-    // --- APARECIMENTO SUAVE DA CAIXINHA APÓS 2 SEGUNDOS ---
+    // Aparição suave do login
     setTimeout(() => {
       document.getElementById('loginCard').classList.add('visible');
     }, 2000);
 
-    // --- ANIMAÇÃO DOS CORAÇÕES ROXOS NO FUNDO ---
+    // Canvas do fundo de corações
     const bgCanvas = document.getElementById('heartsBgCanvas');
     const bgCtx = bgCanvas.getContext('2d');
 
@@ -397,7 +566,7 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
     }
     animateHearts();
 
-    // --- CREDENCIAIS DE ACESSO ---
+    // LOGIN & ANIMAÇÃO DE INTRODUÇÃO
     const usuarioCorreto = "yasmin";
     const senhaCorreta = "2777";
 
@@ -407,24 +576,19 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       const overlay = document.getElementById('loginOverlay');
 
       if (user === usuarioCorreto && pass === senhaCorreta) {
-        // Sucesso: Esconde o login com fade-out
+        // Esconde a tela de login
         overlay.classList.add('fade-out');
 
         setTimeout(() => {
           cancelAnimationFrame(bgAnimationId);
           overlay.style.display = 'none';
           
-          const mainContent = document.getElementById('mainContent');
-          mainContent.style.display = 'flex';
-          setTimeout(() => {
-            mainContent.classList.add('visible');
-          }, 50);
-
-          iniciarAnimacao();
+          // Inicia a sequência "Para Yasmin"
+          executarIntroAnimate();
         }, 800);
 
       } else {
-        // Erro: Esconde o login e mostra a tela preta de bloqueio
+        // Erro: Tela preta de bloqueio
         overlay.classList.add('fade-out');
         setTimeout(() => {
           cancelAnimationFrame(bgAnimationId);
@@ -438,7 +602,105 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       if (e.key === 'Enter') validarLogin();
     });
 
-    // --- ANIMAÇÃO PRINCIPAL DO CORAÇÃO ---
+    // SISTEMA DE EXPLOSÃO EM PARTÍCULAS
+    function executarIntroAnimate() {
+      const introScreen = document.getElementById('introScreen');
+      const introText = document.getElementById('introText');
+      introScreen.style.display = 'flex';
+
+      // 1. Apresenta o texto suavemente
+      setTimeout(() => {
+        introText.classList.add('show');
+      }, 100);
+
+      // 2. Dispara a explosão após 2.2 segundos
+      setTimeout(() => {
+        introText.classList.add('explode');
+        dispararExplosao();
+
+        // 3. Libera o conteúdo principal
+        setTimeout(() => {
+          introScreen.style.opacity = '0';
+          introScreen.style.transition = 'opacity 0.8s ease';
+
+          setTimeout(() => {
+            introScreen.style.display = 'none';
+            const mainContent = document.getElementById('mainContent');
+            mainContent.style.display = 'flex';
+            
+            setTimeout(() => {
+              mainContent.classList.add('visible');
+            }, 50);
+
+            iniciarAnimacao();
+          }, 800);
+
+        }, 400);
+
+      }, 2300);
+    }
+
+    function dispararExplosao() {
+      const expCanvas = document.getElementById('explosionCanvas');
+      const ctx = expCanvas.getContext('2d');
+      expCanvas.width = window.innerWidth;
+      expCanvas.height = window.innerHeight;
+
+      const particles = [];
+      const particleCount = 120;
+      const centerX = expCanvas.width / 2;
+      const centerY = expCanvas.height / 2;
+
+      const colors = ['#a855f7', '#c084fc', '#e9d5ff', '#ffffff', '#7e22ce'];
+
+      for (let i = 0; i < particleCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 12 + 4;
+        particles.push({
+          x: centerX,
+          y: centerY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: Math.random() * 6 + 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+
+      function animateExplosion() {
+        ctx.clearRect(0, 0, expCanvas.width, expCanvas.height);
+        let activeParticles = 0;
+
+        particles.forEach(p => {
+          if (p.alpha > 0) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= p.decay;
+
+            ctx.save();
+            ctx.globalAlpha = Math.max(p.alpha, 0);
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            activeParticles++;
+          }
+        });
+
+        if (activeParticles > 0) {
+          requestAnimationFrame(animateExplosion);
+        }
+      }
+
+      animateExplosion();
+    }
+
+    // CORAÇÃO DA PÁGINA PRINCIPAL
     function iniciarAnimacao() {
       const canvas = document.getElementById('heartCanvas');
       const ctx = canvas.getContext('2d');
