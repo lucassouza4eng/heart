@@ -271,24 +271,16 @@
       font-weight: 500;
     }
 
-    /* BLOCO DE IDIOMAS */
+    /* BLOCO DE IDIOMAS (SEM TÍTULO E CENTRALIZADO) */
     .languages-card {
       width: 100%;
       background: rgba(15, 8, 25, 0.7);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(168, 85, 247, 0.4);
       border-radius: 20px;
-      padding: 28px 20px;
+      padding: 24px 20px;
       margin-top: 10px;
       box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
-    }
-
-    .languages-card h3 {
-      text-align: center;
-      color: #c084fc;
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
     }
 
     .lang-list {
@@ -299,24 +291,20 @@
 
     .lang-item {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: 10px 14px;
+      padding: 12px 14px;
       background: rgba(255, 255, 255, 0.03);
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid rgba(168, 85, 247, 0.15);
       font-size: 0.95rem;
-    }
-
-    .lang-item .lang-name {
-      color: #a855f7;
-      font-weight: 500;
     }
 
     .lang-item .lang-text {
       color: #ffffff;
       font-style: italic;
       font-weight: 600;
+      text-align: center;
       text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
     }
 
@@ -324,11 +312,6 @@
       background: rgba(168, 85, 247, 0.15);
       border-color: rgba(192, 132, 252, 0.6);
       padding: 14px;
-    }
-
-    .lang-item.highlight .lang-name {
-      color: #e9d5ff;
-      font-size: 1.05rem;
     }
 
     .lang-item.highlight .lang-text {
@@ -419,49 +402,47 @@ eu me apaixonei até pelas letras do seu nome, me apaixonei pelo seu jeito, me a
 no silêncio do meu coração, você é a canção mais bela que ecoa dentro dele.
     </div>
 
-    <!-- 35 IDIOMAS NO FINAL DA PÁGINA (1º FRANCÊS / 35º PORTUGUÊS) -->
+    <!-- 35 IDIOMAS NO FINAL DA PÁGINA (APENAS A ESCRITA CENTRALIZADA) -->
     <div class="languages-card">
-      <h3>"Eu Te Amo" em 35 Idiomas 💖</h3>
       <div class="lang-list">
         
-        <div class="lang-item"><span class="lang-name">1. Francês</span><span class="lang-text">Je t'aime</span></div>
-        <div class="lang-item"><span class="lang-name">2. Inglês</span><span class="lang-text">I love you</span></div>
-        <div class="lang-item"><span class="lang-name">3. Espanhol</span><span class="lang-text">Te amo</span></div>
-        <div class="lang-item"><span class="lang-name">4. Italiano</span><span class="lang-text">Ti amo</span></div>
-        <div class="lang-item"><span class="lang-name">5. Alemão</span><span class="lang-text">Ich liebe dich</span></div>
-        <div class="lang-item"><span class="lang-name">6. Holandês</span><span class="lang-text">Ik hou van je</span></div>
-        <div class="lang-item"><span class="lang-name">7. Russo</span><span class="lang-text">Я тебя люблю (Ya tebya lyublyu)</span></div>
-        <div class="lang-item"><span class="lang-name">8. Mandarim</span><span class="lang-text">我爱你 (Wǒ ài nǐ)</span></div>
-        <div class="lang-item"><span class="lang-name">9. Japonês</span><span class="lang-text">愛してる (Aishiteru)</span></div>
-        <div class="lang-item"><span class="lang-name">10. Coreano</span><span class="lang-text">사랑해 (Saranghae)</span></div>
-        <div class="lang-item"><span class="lang-name">11. Árabe</span><span class="lang-text">أحبك (Uhibbuki)</span></div>
-        <div class="lang-item"><span class="lang-name">12. Hindi</span><span class="lang-text">मैं तुमसे प्यार करता हूँ (Main tumse pyar karta hoon)</span></div>
-        <div class="lang-item"><span class="lang-name">13. Turco</span><span class="lang-text">Seni seviyorum</span></div>
-        <div class="lang-item"><span class="lang-name">14. Grego</span><span class="lang-text">Σ' αγαπώ (S'agapo)</span></div>
-        <div class="lang-item"><span class="lang-name">15. Polonês</span><span class="lang-text">Kocham cię</span></div>
-        <div class="lang-item"><span class="lang-name">16. Sueco</span><span class="lang-text">Jag älskar dig</span></div>
-        <div class="lang-item"><span class="lang-name">17. Norueguês</span><span class="lang-text">Jeg elsker deg</span></div>
-        <div class="lang-item"><span class="lang-name">18. Dinamarquês</span><span class="lang-text">Jeg elsker dig</span></div>
-        <div class="lang-item"><span class="lang-name">19. Finlandês</span><span class="lang-text">Minä rakastan sinua</span></div>
-        <div class="lang-item"><span class="lang-name">20. Tcheco</span><span class="lang-text">Miluji tě</span></div>
-        <div class="lang-item"><span class="lang-name">21. Húngaro</span><span class="lang-text">Szeretlek</span></div>
-        <div class="lang-item"><span class="lang-name">22. Romeno</span><span class="lang-text">Te iubesc</span></div>
-        <div class="lang-item"><span class="lang-name">23. Ucraniano</span><span class="lang-text">Я тебе люблю (Ya tebe lyublyu)</span></div>
-        <div class="lang-item"><span class="lang-name">24. Hebraico</span><span class="lang-text">אני אוהב אותך (Ani ohev otach)</span></div>
-        <div class="lang-item"><span class="lang-name">25. Vietnamita</span><span class="lang-text">Anh yêu em</span></div>
-        <div class="lang-item"><span class="lang-name">26. Tailandês</span><span class="lang-text">ฉันรักคุณ (Chan rak khun)</span></div>
-        <div class="lang-item"><span class="lang-name">27. Indonésio</span><span class="lang-text">Aku cinta kamu</span></div>
-        <div class="lang-item"><span class="lang-name">28. Malaio</span><span class="lang-text">Saya sayang awak</span></div>
-        <div class="lang-item"><span class="lang-name">29. Tagalo (Filipino)</span><span class="lang-text">Mahal kita</span></div>
-        <div class="lang-item"><span class="lang-name">30. Suaíli</span><span class="lang-text">Nakupenda</span></div>
-        <div class="lang-item"><span class="lang-name">31. Irlandês</span><span class="lang-text">Is aoibhinn liom tú</span></div>
-        <div class="lang-item"><span class="lang-name">32. Galês</span><span class="lang-text">Rwy'n dy garu di</span></div>
-        <div class="lang-item"><span class="lang-name">33. Catalão</span><span class="lang-text">T'estimo</span></div>
-        <div class="lang-item"><span class="lang-name">34. Galego</span><span class="lang-text">Quérote</span></div>
+        <div class="lang-item"><span class="lang-text">Je t'aime</span></div>
+        <div class="lang-item"><span class="lang-text">I love you</span></div>
+        <div class="lang-item"><span class="lang-text">Te amo</span></div>
+        <div class="lang-item"><span class="lang-text">Ti amo</span></div>
+        <div class="lang-item"><span class="lang-text">Ich liebe dich</span></div>
+        <div class="lang-item"><span class="lang-text">Ik hou van je</span></div>
+        <div class="lang-item"><span class="lang-text">Я тебя люблю (Ya tebya lyublyu)</span></div>
+        <div class="lang-item"><span class="lang-text">我爱你 (Wǒ ài nǐ)</span></div>
+        <div class="lang-item"><span class="lang-text">愛してる (Aishiteru)</span></div>
+        <div class="lang-item"><span class="lang-text">사랑해 (Saranghae)</span></div>
+        <div class="lang-item"><span class="lang-text">أحبك (Uhibbuki)</span></div>
+        <div class="lang-item"><span class="lang-text">मैं तुमसे प्यार करता हूँ (Main tumse pyar karta hoon)</span></div>
+        <div class="lang-item"><span class="lang-text">Seni seviyorum</span></div>
+        <div class="lang-item"><span class="lang-text">Σ' αγαπώ (S'agapo)</span></div>
+        <div class="lang-item"><span class="lang-text">Kocham cię</span></div>
+        <div class="lang-item"><span class="lang-text">Jag älskar dig</span></div>
+        <div class="lang-item"><span class="lang-text">Jeg elsker deg</span></div>
+        <div class="lang-item"><span class="lang-text">Jeg elsker dig</span></div>
+        <div class="lang-item"><span class="lang-text">Minä rakastan sinua</span></div>
+        <div class="lang-item"><span class="lang-text">Miluji tě</span></div>
+        <div class="lang-item"><span class="lang-text">Szeretlek</span></div>
+        <div class="lang-item"><span class="lang-text">Te iubesc</span></div>
+        <div class="lang-item"><span class="lang-text">Я тебе люблю (Ya tebe lyublyu)</span></div>
+        <div class="lang-item"><span class="lang-text">אני אוהב אותך (Ani ohev otach)</span></div>
+        <div class="lang-item"><span class="lang-text">Anh yêu em</span></div>
+        <div class="lang-item"><span class="lang-text">ฉันรักคุณ (Chan rak khun)</span></div>
+        <div class="lang-item"><span class="lang-text">Aku cinta kamu</span></div>
+        <div class="lang-item"><span class="lang-text">Saya sayang awak</span></div>
+        <div class="lang-item"><span class="lang-text">Mahal kita</span></div>
+        <div class="lang-item"><span class="lang-text">Nakupenda</span></div>
+        <div class="lang-item"><span class="lang-text">Is aoibhinn liom tú</span></div>
+        <div class="lang-item"><span class="lang-text">Rwy'n dy garu di</span></div>
+        <div class="lang-item"><span class="lang-text">T'estimo</span></div>
+        <div class="lang-item"><span class="lang-text">Quérote</span></div>
 
-        <!-- 35º E ÚLTIMO -->
+        <!-- 35º E ÚLTIMO (PORTUGUÊS) -->
         <div class="lang-item highlight">
-          <span class="lang-name">35. Português</span>
           <span class="lang-text">Eu te amo ❤️</span>
         </div>
 
@@ -576,19 +557,16 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       const overlay = document.getElementById('loginOverlay');
 
       if (user === usuarioCorreto && pass === senhaCorreta) {
-        // Esconde a tela de login
         overlay.classList.add('fade-out');
 
         setTimeout(() => {
           cancelAnimationFrame(bgAnimationId);
           overlay.style.display = 'none';
           
-          // Inicia a sequência "Para Yasmin"
           executarIntroAnimate();
         }, 800);
 
       } else {
-        // Erro: Tela preta de bloqueio
         overlay.classList.add('fade-out');
         setTimeout(() => {
           cancelAnimationFrame(bgAnimationId);
@@ -608,17 +586,14 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       const introText = document.getElementById('introText');
       introScreen.style.display = 'flex';
 
-      // 1. Apresenta o texto suavemente
       setTimeout(() => {
         introText.classList.add('show');
       }, 100);
 
-      // 2. Dispara a explosão após 2.2 segundos
       setTimeout(() => {
         introText.classList.add('explode');
         dispararExplosao();
 
-        // 3. Libera o conteúdo principal
         setTimeout(() => {
           introScreen.style.opacity = '0';
           introScreen.style.transition = 'opacity 0.8s ease';
