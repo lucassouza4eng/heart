@@ -286,14 +286,6 @@
       text-align: center;
     }
 
-    .scratch-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #e9d5ff;
-      margin-bottom: 15px;
-      text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-    }
-
     .scratch-card-wrapper {
       position: relative;
       width: 100%;
@@ -431,9 +423,9 @@
 </head>
 <body>
 
-  <!-- ÁUDIO DE FUNDO (MC KEVIN - NOSSO LUGAR - REFRÃO) -->
-  <audio id="bgMusic" loop>
-    <source src="https://ia801503.us.archive.org/15/items/mc-kevin-nosso-lugar-refrao/mc-kevin-nosso-lugar.mp3" type="audio/mpeg">
+  <!-- ÁUDIO DA MÚSICA "NOSSO LUGAR" -->
+  <audio id="bgMusic" loop crossorigin="anonymous" preload="auto">
+    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/7S7T9D2Kj4wUfRkx?src=direct" type="audio/mpeg">
   </audio>
 
   <!-- BOTÃO FLUTUANTE PARA PARAR/TOCAR MÚSICA -->
@@ -472,9 +464,8 @@
       <canvas id="heartCanvas" width="320" height="320"></canvas>
     </div>
 
-    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA -->
+    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA (SEM TÍTULO SOBREPOSTO) -->
     <div class="scratch-container">
-      <div class="scratch-title">raspe aqui com o dedo</div>
       <div class="scratch-card-wrapper" id="scratchWrapper">
         <div class="scratch-secret-text">
           Eu posso não ser o cara mais foda do mundo, mas pra você eu quero ser o melhor que eu puder. Eu quero ser o motivo do teu sorriso, o abraço que te acalma, o colo que te dá força e o parceiro que nunca solta a tua mão. Eu prometo que vou fazer de tudo pra te ver feliz, porque a tua felicidade é a minha também. Eu não preciso do mundo inteiro, só preciso de você. E enquanto eu respirar, vou lutar todos os dias pra te mostrar o quanto eu TE AMO.
@@ -521,7 +512,6 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
     <!-- 35 IDIOMAS NO FINAL DA PÁGINA -->
     <div class="languages-card">
       <div class="lang-list">
-        
         <div class="lang-item"><span class="lang-text">Je t'aime</span></div>
         <div class="lang-item"><span class="lang-text">I love you</span></div>
         <div class="lang-item"><span class="lang-text">Te amo</span></div>
@@ -557,11 +547,9 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
         <div class="lang-item"><span class="lang-text">T'estimo</span></div>
         <div class="lang-item"><span class="lang-text">Quérote</span></div>
 
-        <!-- 35º E ÚLTIMO (PORTUGUÊS) -->
         <div class="lang-item highlight">
           <span class="lang-text">Eu te amo ❤️</span>
         </div>
-
       </div>
     </div>
 
@@ -575,7 +563,6 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
     const musicBtnText = document.getElementById('musicBtnText');
 
     function tocarMusicaComFadeIn() {
-      audio.currentTime = 52; 
       audio.volume = 0.05;
       audio.play().then(() => {
         musicBtn.style.display = 'flex';
@@ -589,7 +576,7 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
             clearInterval(fadeInterval);
           }
         }, 300);
-      }).catch(e => console.log("Autoplay bloqueado pelo navegador"));
+      }).catch(e => console.log("Autoplay bloqueado pelo navegador", e));
     }
 
     function toggleMusic() {
@@ -891,12 +878,6 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       gradient.addColorStop(1, '#581c87');
       sCtx.fillStyle = gradient;
       sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
-
-      sCtx.fillStyle = '#ffffff';
-      sCtx.font = 'bold 16px Inter, sans-serif';
-      sCtx.textAlign = 'center';
-      sCtx.textBaseline = 'middle';
-      sCtx.fillText('RASPE AQUI COM O DEDO', sCanvas.width / 2, sCanvas.height / 2);
 
       let isDrawing = false;
 
