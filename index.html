@@ -27,6 +27,78 @@
       padding: 20px 10px;
     }
 
+    /* --- TELA DE LOGIN --- */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0d1117;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 30px 24px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-card h2 {
+      font-size: 1.1rem;
+      color: #c9d1d9;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .login-card input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #c9d1d9;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .login-card input:focus {
+      border-color: #A855F7;
+    }
+
+    .login-card button {
+      width: 100%;
+      padding: 10px;
+      background: #A855F7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .login-card button:hover {
+      background: #9333ea;
+    }
+
+    .error-msg {
+      color: #ff5f56;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* --- CONTEÚDO DO SITE --- */
     .editor-container {
       width: 100%;
       max-width: 950px;
@@ -35,7 +107,7 @@
       border-radius: 12px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       overflow: hidden;
-      display: flex;
+      display: none; /* Escondido até fazer login */
       flex-direction: column;
     }
 
@@ -168,7 +240,19 @@
 </head>
 <body>
 
-  <div class="editor-container">
+  <!-- TELA DE LOGIN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <h2>deseja acessar o conteudo da pagina? 💗</h2>
+      <input type="text" id="userInput" placeholder="Usuário">
+      <input type="password" id="passInput" placeholder="Senha">
+      <button onclick="validarLogin()">Entrar</button>
+      <div class="error-msg" id="errorMsg">Usuário ou senha incorretos!</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO DO SITE -->
+  <div class="editor-container" id="mainContent">
     <div class="window-header">
       <div class="window-controls">
         <span class="control-btn close"></span>
@@ -236,49 +320,69 @@ done()</div>
   </div>
 
   <script>
-    const canvas = document.getElementById('heartCanvas');
-    const ctx = canvas.getContext('2d');
+    // CREDENCIAIS DE ACESSO
+    const usuarioCorreto = "yasmin";
+    const senhaCorreta = "2777";
 
-    const width = canvas.width;
-    const height = canvas.height;
-    const centerX = width / 2;
-    const centerY = height / 2 - 10;
+    function validarLogin() {
+      const user = document.getElementById('userInput').value;
+      const pass = document.getElementById('passInput').value;
+      const errorMsg = document.getElementById('errorMsg');
 
-    function hearta(k) {
-      return 15 * Math.pow(Math.sin(k), 3);
-    }
-
-    function heartb(k) {
-      return 12 * Math.cos(k) - 5 * Math.cos(2 * k) - 2 * Math.cos(3 * k) - Math.cos(4 * k);
-    }
-
-    let i = 0;
-    const maxI = 1200;
-
-    function draw() {
-      if (i <= maxI) {
-        const k = i * 0.02;
-        const x = hearta(k) * 9;
-        const y = heartb(k) * 9;
-
-        const canvasX = centerX + x;
-        const canvasY = centerY - y;
-
-        ctx.beginPath();
-        ctx.strokeStyle = '#A855F7';
-        ctx.lineWidth = 1.5;
-        ctx.moveTo(centerX, centerY);
-        ctx.lineTo(canvasX, canvasY);
-        ctx.stroke();
-
-        i++;
-        setTimeout(() => {
-          requestAnimationFrame(draw);
-        }, 15);
+      if (user === usuarioCorreto && pass === senhaCorreta) {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'flex';
+        iniciarAnimacao();
+      } else {
+        errorMsg.style.display = 'block';
       }
     }
 
-    draw();
+    function iniciarAnimacao() {
+      const canvas = document.getElementById('heartCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const centerX = width / 2;
+      const centerY = height / 2 - 10;
+
+      function hearta(k) {
+        return 15 * Math.pow(Math.sin(k), 3);
+      }
+
+      function heartb(k) {
+        return 12 * Math.cos(k) - 5 * Math.cos(2 * k) - 2 * Math.cos(3 * k) - Math.cos(4 * k);
+      }
+
+      let i = 0;
+      const maxI = 1200;
+
+      function draw() {
+        if (i <= maxI) {
+          const k = i * 0.02;
+          const x = hearta(k) * 9;
+          const y = heartb(k) * 9;
+
+          const canvasX = centerX + x;
+          const canvasY = centerY - y;
+
+          ctx.beginPath();
+          ctx.strokeStyle = '#A855F7';
+          ctx.lineWidth = 1.5;
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(canvasX, canvasY);
+          ctx.stroke();
+
+          i++;
+          setTimeout(() => {
+            requestAnimationFrame(draw);
+          }, 15);
+        }
+      }
+
+      draw();
+    }
   </script>
 </body>
 </html>
