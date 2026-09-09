@@ -327,6 +327,7 @@
       height: 100%;
       cursor: pointer;
       touch-action: none;
+      z-index: 2;
     }
 
     /* CARTÕES DE POEMA */
@@ -423,9 +424,9 @@
 </head>
 <body>
 
-  <!-- ÁUDIO DA MÚSICA "NOSSO LUGAR" -->
-  <audio id="bgMusic" loop crossorigin="anonymous" preload="auto">
-    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/7S7T9D2Kj4wUfRkx?src=direct" type="audio/mpeg">
+  <!-- ARQUIVO DE ÁUDIO -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
   <!-- BOTÃO FLUTUANTE PARA PARAR/TOCAR MÚSICA -->
@@ -464,7 +465,7 @@
       <canvas id="heartCanvas" width="320" height="320"></canvas>
     </div>
 
-    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA (SEM TÍTULO SOBREPOSTO) -->
+    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA COM TEXTO EM CIMA -->
     <div class="scratch-container">
       <div class="scratch-card-wrapper" id="scratchWrapper">
         <div class="scratch-secret-text">
@@ -872,12 +873,25 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       sCanvas.width = sWrapper.offsetWidth;
       sCanvas.height = sWrapper.offsetHeight;
 
-      const gradient = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
-      gradient.addColorStop(0, '#7e22ce');
-      gradient.addColorStop(0.5, '#a855f7');
-      gradient.addColorStop(1, '#581c87');
-      sCtx.fillStyle = gradient;
-      sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
+      function desenharCamadaRaso() {
+        const gradient = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
+        gradient.addColorStop(0, '#7e22ce');
+        gradient.addColorStop(0.5, '#a855f7');
+        gradient.addColorStop(1, '#581c87');
+        sCtx.fillStyle = gradient;
+        sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
+
+        // Desenhar o texto "raspe aqui com o dedo" diretamente sobre o fundo roxo
+        sCtx.font = "bold 1.1rem 'Inter', sans-serif";
+        sCtx.fillStyle = "#ffffff";
+        sCtx.textAlign = "center";
+        sCtx.textBaseline = "middle";
+        sCtx.shadowColor = "rgba(0, 0, 0, 0.5)";
+        sCtx.shadowBlur = 6;
+        sCtx.fillText("raspe aqui com o dedo", sCanvas.width / 2, sCanvas.height / 2);
+      }
+
+      desenharCamadaRaso();
 
       let isDrawing = false;
 
