@@ -6,7 +6,7 @@
   <title>para yasmim 💗</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -23,8 +23,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px 10px;
+      justify-content: flex-start;
+      padding: 40px 15px;
       overflow-x: hidden;
     }
 
@@ -167,163 +167,68 @@
       max-width: 500px;
     }
 
-    /* --- POEMA DE AMOR --- */
-    .poem-box {
-      background: rgba(20, 10, 30, 0.5);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 15px;
-      color: #e9d5ff;
-      font-style: italic;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      text-align: center;
-      text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
-    }
-
-    /* --- CONTEÚDO DO SITE --- */
-    .editor-container {
+    /* --- CONTEÚDO PRINCIPAL (LAYOUT VERTICAL) --- */
+    .main-container {
       width: 100%;
-      max-width: 950px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      overflow: hidden;
+      max-width: 650px;
       display: none;
       flex-direction: column;
+      align-items: center;
+      gap: 25px;
       opacity: 0;
       transition: opacity 1s ease;
     }
 
-    .editor-container.visible {
+    .main-container.visible {
       opacity: 1;
     }
 
-    .window-header {
-      background: #0d1117;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #21262d;
-    }
-
-    .window-controls {
-      display: flex;
-      gap: 8px;
-    }
-
-    .control-btn {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .close { background-color: #ff5f56; }
-    .minimize { background-color: #ffbd2e; }
-    .maximize { background-color: #27c93f; }
-
-    .window-title {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #8b949e;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .editor-body {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      background-color: #0d1117;
-    }
-
-    .code-pane {
-      flex: 1 1 500px;
-      padding: 20px 10px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      overflow-x: auto;
-      display: flex;
-      background: #0d1117;
-    }
-
-    .line-numbers {
-      color: #484f58;
-      text-align: right;
-      padding-right: 15px;
-      user-select: none;
-      border-right: 1px solid #21262d;
-    }
-
-    .line-numbers span {
-      display: block;
-    }
-
-    .code-content {
-      padding-left: 15px;
-      white-space: pre;
-    }
-
-    .keyword { color: #ff7b72; font-weight: 600; }
-    .builtin { color: #79c0ff; }
-    .function { color: #d2a8ff; }
-    .number { color: #a5d6ff; }
-    .string { color: #a5d6ff; }
-    .operator { color: #ff7b72; }
-    .color-preview {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background-color: #A855F7;
-      margin-right: 4px;
-      border-radius: 2px;
-      vertical-align: middle;
-    }
-
-    .preview-pane {
-      flex: 1 1 350px;
-      background: #000;
-      border-left: 1px solid #21262d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    .heart-preview-box {
+      background: rgba(13, 17, 23, 0.8);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 20px;
       padding: 20px;
-      min-height: 420px;
-      position: relative;
-    }
-
-    .preview-title {
-      position: absolute;
-      top: 12px;
-      left: 15px;
-      font-size: 0.75rem;
-      color: #8b949e;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
+      width: 100%;
     }
 
     canvas {
       max-width: 100%;
       height: auto;
-      border-radius: 6px;
     }
 
-    @media (max-width: 768px) {
-      .editor-body {
-        flex-direction: column;
-      }
-      .preview-pane {
-        border-left: none;
-        border-top: 1px solid #21262d;
-        min-height: 350px;
-      }
-      .code-pane {
-        font-size: 0.78rem;
+    /* CARTÕES DE POEMA */
+    .poem-card {
+      width: 100%;
+      background: rgba(20, 10, 30, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 18px;
+      padding: 24px 20px;
+      color: #e9d5ff;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.8;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+      white-space: pre-line;
+    }
+
+    .poem-card.intro {
+      border-color: rgba(192, 132, 252, 0.5);
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .poem-card {
+        font-size: 0.95rem;
+        padding: 20px 16px;
       }
     }
   </style>
@@ -347,77 +252,53 @@
     <p>exclusivamente exclusivo para a yasmin, se voce nao for vai tomar no cu</p>
   </div>
 
-  <!-- CONTEÚDO DO SITE -->
-  <div class="editor-container" id="mainContent">
-    <div class="window-header">
-      <div class="window-controls">
-        <span class="control-btn close"></span>
-        <span class="control-btn minimize"></span>
-        <span class="control-btn maximize"></span>
-      </div>
-      <div class="window-title">
-        <span>para yasmim 💗</span>
-      </div>
-      <div style="width: 50px;"></div>
+  <!-- CONTEÚDO DO SITE (POEMAS ROLÁVEIS NA VERTICAL) -->
+  <div class="main-container" id="mainContent">
+
+    <!-- DESENHO DO CORAÇÃO ROXO -->
+    <div class="heart-preview-box">
+      <canvas id="heartCanvas" width="320" height="320"></canvas>
     </div>
 
-    <!-- POEMA DE AMOR PERSONALIZADO -->
-    <div class="poem-box">
+    <!-- POEMA INTRODUÇÃO -->
+    <div class="poem-card intro">
       "se eu tivesse que escrever um poema de amor, colocaria seu nome, ja que e oque mais me lembra amor" 💜
     </div>
 
-    <div class="editor-body">
-      <div class="code-pane">
-        <div class="line-numbers">
-          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-          <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-          <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
-          <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
-          <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
-          <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span>
-          <span>31</span><span>32</span><span>33</span>
-        </div>
-        <div class="code-content">
-<span class="keyword">import</span> math
-<span class="keyword">import</span> time
-<span class="keyword">from</span> turtle <span class="keyword">import</span> <span class="operator">*</span>
-
-<span class="keyword">def</span> <span class="function">hearta</span>(k):
-    <span class="keyword">return</span> <span class="number">15</span> <span class="operator">*</span> math.sin(k) <span class="operator">**</span> <span class="number">3</span>
-
-<span class="keyword">def</span> <span class="function">heartb</span>(k):
-    <span class="keyword">return</span> (
-        <span class="number">12</span> <span class="operator">*</span> math.cos(k)
-        <span class="operator">-</span> <span class="number">5</span> <span class="operator">*</span> math.cos(<span class="number">2</span> <span class="operator">*</span> k)
-        <span class="operator">-</span> <span class="number">2</span> <span class="operator">*</span> math.cos(<span class="number">3</span> <span class="operator">*</span> k)
-        <span class="operator">-</span> math.cos(<span class="number">4</span> <span class="operator">*</span> k)
-    )
-
-tracer(<span class="number">0</span>)
-
-bgcolor(<span class="string">"black"</span>)
-color(<span class="string"><span class="color-preview"></span>"#A855F7"</span>)
-pensize(<span class="number">1.5</span>)
-
-<span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1200</span>):
-    k = i <span class="operator">*</span> <span class="number">0.02</span>
-    x = hearta(k) <span class="operator">*</span> <span class="number">20</span>
-    y = heartb(k) <span class="operator">*</span> <span class="number">20</span>
-    goto(x, y)
-    goto(<span class="number">0</span>, <span class="number">0</span>)
-
-    update()
-    time.sleep(<span class="number">0.015</span>)
-
-hideturtle()
-done()</div>
-      </div>
-
-      <div class="preview-pane">
-        <div class="preview-title">Python Turtle Graphics</div>
-        <canvas id="heartCanvas" width="320" height="320"></canvas>
-      </div>
+    <!-- POEMA 1 -->
+    <div class="poem-card">
+      você é a minha poesia preferida. e enquanto eu existir, vou escrever o teu nome em tudo o que me faz feliz. em tudo o que for leve. em tudo o que for amor.
     </div>
+
+    <!-- POEMA 2 -->
+    <div class="poem-card">
+espero que
+
+você fique
+
+na minha
+
+vida para
+
+sempre, eu
+
+realmente
+
+te amo com
+
+toda a minha alma
+    </div>
+
+    <!-- POEMA 3 -->
+    <div class="poem-card">
+eu me apaixonei até pelas letras do seu nome, me apaixonei pelo seu jeito, me apaixonei pela sua voz, me apaixonei pela sua risada, me apaixonei pela forma que você me trata com tanto carinho, me apaixonei pelo jeito que você cuida de mim, eu simplesmente me apaixonei por você ser você, eu sou completamente apaixonado por você
+    </div>
+
+    <!-- POEMA 4 -->
+    <div class="poem-card">
+no silêncio do meu coração, você é a canção mais bela que ecoa dentro dele.
+    </div>
+
   </div>
 
   <script>
@@ -426,7 +307,7 @@ done()</div>
       document.getElementById('loginCard').classList.add('visible');
     }, 2000);
 
-    // --- ANIMAÇÃO DOS CORAÇÕES ROXOS ---
+    // --- ANIMAÇÃO DOS CORAÇÕES ROXOS NO FUNDO ---
     const bgCanvas = document.getElementById('heartsBgCanvas');
     const bgCtx = bgCanvas.getContext('2d');
 
@@ -543,7 +424,7 @@ done()</div>
         }, 800);
 
       } else {
-        // Erro: Esconde o login e mostra a tela preta com mensagem
+        // Erro: Esconde o login e mostra a tela preta de bloqueio
         overlay.classList.add('fade-out');
         setTimeout(() => {
           cancelAnimationFrame(bgAnimationId);
@@ -557,7 +438,7 @@ done()</div>
       if (e.key === 'Enter') validarLogin();
     });
 
-    // --- ANIMAÇÃO PRINCIPAL DO CORAÇÃO PYTHON ---
+    // --- ANIMAÇÃO PRINCIPAL DO CORAÇÃO ---
     function iniciarAnimacao() {
       const canvas = document.getElementById('heartCanvas');
       const ctx = canvas.getContext('2d');
