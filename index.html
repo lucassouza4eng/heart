@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>here is the code 💗</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+    }
+
+    .editor-container {
+      width: 100%;
+      max-width: 950px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .window-header {
+      background: #0d1117;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .close { background-color: #ff5f56; }
+    .minimize { background-color: #ffbd2e; }
+    .maximize { background-color: #27c93f; }
+
+    .window-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #8b949e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .editor-body {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      background-color: #0d1117;
+    }
+
+    .code-pane {
+      flex: 1 1 500px;
+      padding: 20px 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      display: flex;
+      background: #0d1117;
+    }
+
+    .line-numbers {
+      color: #484f58;
+      text-align: right;
+      padding-right: 15px;
+      user-select: none;
+      border-right: 1px solid #21262d;
+    }
+
+    .line-numbers span {
+      display: block;
+    }
+
+    .code-content {
+      padding-left: 15px;
+      white-space: pre;
+    }
+
+    .keyword { color: #ff7b72; font-weight: 600; }
+    .builtin { color: #79c0ff; }
+    .function { color: #d2a8ff; }
+    .number { color: #a5d6ff; }
+    .string { color: #a5d6ff; }
+    .operator { color: #ff7b72; }
+    .color-preview {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: #A855F7;
+      margin-right: 4px;
+      border-radius: 2px;
+      vertical-align: middle;
+    }
+
+    .preview-pane {
+      flex: 1 1 350px;
+      background: #000;
+      border-left: 1px solid #21262d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 420px;
+      position: relative;
+    }
+
+    .preview-title {
+      position: absolute;
+      top: 12px;
+      left: 15px;
+      font-size: 0.75rem;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .editor-body {
+        flex-direction: column;
+      }
+      .preview-pane {
+        border-left: none;
+        border-top: 1px solid #21262d;
+        min-height: 350px;
+      }
+      .code-pane {
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="editor-container">
+    <div class="window-header">
+      <div class="window-controls">
+        <span class="control-btn close"></span>
+        <span class="control-btn minimize"></span>
+        <span class="control-btn maximize"></span>
+      </div>
+      <div class="window-title">
+        <span>2.pu.py — here is the code 💗</span>
+      </div>
+      <div style="width: 50px;"></div>
+    </div>
+
+    <div class="editor-body">
+      <div class="code-pane">
+        <div class="line-numbers">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+          <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+          <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+          <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+          <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span>
+          <span>31</span><span>32</span><span>33</span>
+        </div>
+        <div class="code-content">
+<span class="keyword">import</span> math
+<span class="keyword">import</span> time
+<span class="keyword">from</span> turtle <span class="keyword">import</span> <span class="operator">*</span>
+
+<span class="keyword">def</span> <span class="function">hearta</span>(k):
+    <span class="keyword">return</span> <span class="number">15</span> <span class="operator">*</span> math.sin(k) <span class="operator">**</span> <span class="number">3</span>
+
+<span class="keyword">def</span> <span class="function">heartb</span>(k):
+    <span class="keyword">return</span> (
+        <span class="number">12</span> <span class="operator">*</span> math.cos(k)
+        <span class="operator">-</span> <span class="number">5</span> <span class="operator">*</span> math.cos(<span class="number">2</span> <span class="operator">*</span> k)
+        <span class="operator">-</span> <span class="number">2</span> <span class="operator">*</span> math.cos(<span class="number">3</span> <span class="operator">*</span> k)
+        <span class="operator">-</span> math.cos(<span class="number">4</span> <span class="operator">*</span> k)
+    )
+
+tracer(<span class="number">0</span>)
+
+bgcolor(<span class="string">"black"</span>)
+color(<span class="string"><span class="color-preview"></span>"#A855F7"</span>)
+pensize(<span class="number">1.5</span>)
+
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1200</span>):
+    k = i <span class="operator">*</span> <span class="number">0.02</span>
+    x = hearta(k) <span class="operator">*</span> <span class="number">20</span>
+    y = heartb(k) <span class="operator">*</span> <span class="number">20</span>
+    goto(x, y)
+    goto(<span class="number">0</span>, <span class="number">0</span>)
+
+    update()
+    time.sleep(<span class="number">0.015</span>)
+
+hideturtle()
+done()</div>
+      </div>
+
+      <div class="preview-pane">
+        <div class="preview-title">Python Turtle Graphics</div>
+        <canvas id="heartCanvas" width="320" height="320"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('heartCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const centerX = width / 2;
+    const centerY = height / 2 - 10;
+
+    function hearta(k) {
+      return 15 * Math.pow(Math.sin(k), 3);
+    }
+
+    function heartb(k) {
+      return 12 * Math.cos(k) - 5 * Math.cos(2 * k) - 2 * Math.cos(3 * k) - Math.cos(4 * k);
+    }
+
+    let i = 0;
+    const maxI = 1200;
+
+    function draw() {
+      if (i <= maxI) {
+        const k = i * 0.02;
+        const x = hearta(k) * 9;
+        const y = heartb(k) * 9;
+
+        const canvasX = centerX + x;
+        const canvasY = centerY - y;
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#A855F7';
+        ctx.lineWidth = 1.5;
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(canvasX, canvasY);
+        ctx.stroke();
+
+        i++;
+        setTimeout(() => {
+          requestAnimationFrame(draw);
+        }, 15);
+      }
+    }
+
+    draw();
+  </script>
+</body>
+</html>
