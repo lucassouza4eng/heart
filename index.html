@@ -273,15 +273,15 @@
       height: auto;
     }
 
-    /* --- ESTILO DA RASPADINHA --- */
+    /* --- ESTILO DA RASPADINHA (COM BORDAS E TOPO AUMENTADOS) --- */
     .scratch-container {
       width: 100%;
       background: rgba(20, 10, 30, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 20px;
-      padding: 20px;
+      border-radius: 24px;
+      padding: 24px; /* Aumentado o espaço externo */
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
       text-align: center;
     }
@@ -289,8 +289,8 @@
     .scratch-card-wrapper {
       position: relative;
       width: 100%;
-      min-height: 220px;
-      border-radius: 14px;
+      min-height: 250px; /* Aumentada a altura mínima */
+      border-radius: 16px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -300,14 +300,11 @@
     }
 
     .scratch-secret-text {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
-      padding: 20px;
+      padding: 35px 25px 30px 25px; /* Aumentado espaço no topo (35px) e laterais (25px) */
       color: #e9d5ff;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       line-height: 1.6;
       font-style: italic;
       display: flex;
@@ -405,6 +402,13 @@
     }
 
     @media (max-width: 600px) {
+      .scratch-container {
+        padding: 16px;
+      }
+      .scratch-secret-text {
+        font-size: 0.9rem;
+        padding: 30px 18px 25px 18px; /* Ajuste responsivo garantindo folga no topo */
+      }
       .poem-card {
         font-size: 0.95rem;
         padding: 20px 16px;
@@ -414,10 +418,6 @@
       }
       .intro-text-box {
         font-size: 1.8rem;
-      }
-      .scratch-secret-text {
-        font-size: 0.85rem;
-        padding: 15px;
       }
     }
   </style>
@@ -465,10 +465,10 @@
       <canvas id="heartCanvas" width="320" height="320"></canvas>
     </div>
 
-    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA COM TEXTO EM CIMA -->
+    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA -->
     <div class="scratch-container">
       <div class="scratch-card-wrapper" id="scratchWrapper">
-        <div class="scratch-secret-text">
+        <div class="scratch-secret-text" id="scratchText">
           Eu posso não ser o cara mais foda do mundo, mas pra você eu quero ser o melhor que eu puder. Eu quero ser o motivo do teu sorriso, o abraço que te acalma, o colo que te dá força e o parceiro que nunca solta a tua mão. Eu prometo que vou fazer de tudo pra te ver feliz, porque a tua felicidade é a minha também. Eu não preciso do mundo inteiro, só preciso de você. E enquanto eu respirar, vou lutar todos os dias pra te mostrar o quanto eu TE AMO.
         </div>
         <canvas id="scratchCanvas"></canvas>
@@ -864,16 +864,16 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       draw();
     }
 
-    // SISTEMA DA RASPADINHA INTERATIVA
+    // SISTEMA DA RASPADINHA INTERATIVA (DINÂMICO PARA EVITAR CORTE DE TEXTO)
     function iniciarRaspadinha() {
       const sCanvas = document.getElementById('scratchCanvas');
       const sWrapper = document.getElementById('scratchWrapper');
       const sCtx = sCanvas.getContext('2d');
 
-      sCanvas.width = sWrapper.offsetWidth;
-      sCanvas.height = sWrapper.offsetHeight;
+      function resizeAndRedraw() {
+        sCanvas.width = sWrapper.offsetWidth;
+        sCanvas.height = sWrapper.offsetHeight;
 
-      function desenharCamadaRaso() {
         const gradient = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
         gradient.addColorStop(0, '#7e22ce');
         gradient.addColorStop(0.5, '#a855f7');
@@ -881,24 +881,24 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
         sCtx.fillStyle = gradient;
         sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
 
-        // Desenhar o texto "raspe aqui com o dedo" diretamente sobre o fundo roxo
+        // Texto centralizado na raspadinha
         sCtx.font = "bold 1.1rem 'Inter', sans-serif";
         sCtx.fillStyle = "#ffffff";
         sCtx.textAlign = "center";
         sCtx.textBaseline = "middle";
         sCtx.shadowColor = "rgba(0, 0, 0, 0.5)";
         sCtx.shadowBlur = 6;
-        sCtx.fillText("raspe aqui com o dedo", sCanvas.width / 2, sCanvas.height / 2);
+        sCtx.fillText("PASSE O DEDO AQUI", sCanvas.width / 2, sCanvas.height / 2);
       }
 
-      desenharCamadaRaso();
+      resizeAndRedraw();
 
       let isDrawing = false;
 
       function scratch(x, y) {
         sCtx.globalCompositeOperation = 'destination-out';
         sCtx.beginPath();
-        sCtx.arc(x, y, 22, 0, Math.PI * 2, false);
+        sCtx.arc(x, y, 24, 0, Math.PI * 2, false);
         sCtx.fill();
       }
 
