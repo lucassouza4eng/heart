@@ -461,7 +461,7 @@
 
   <!-- TELA DE ERRO (BLOQUEIO TOTAL) -->
   <div class="blocked-screen" id="blockedScreen">
-    <p>exclusivamente exclusivo para a yasmin, se voce nao for vai tomar no cu</p>
+    <p>exclusivamente exclusivo para a yasmin, se voce nao for ela vai tomar no cu</p>
   </div>
 
   <!-- CONTEÚDO DO SITE -->
@@ -474,10 +474,10 @@
 
     <!-- 2º ELEMENTO: RASPADINHA INTERATIVA -->
     <div class="scratch-container">
-      <div class="scratch-title">✨ Raspe aqui embaixo com o dedo/mouse para ver uma mensagem especial ✨</div>
+      <div class="scratch-title">raspe aqui com o dedo</div>
       <div class="scratch-card-wrapper" id="scratchWrapper">
         <div class="scratch-secret-text">
-          Eu posso não ser o cara mais foda do mundo, mas pra você eu quero ser o melhor que eu puder. Eu quero ser o motivo do teu sorriso, o abraço que te acalma, o colo que te dá força e o parceiro que nunca solta a tua mão. Eu prometo que vou fazer de tudo pra te ver feliz, porque a tua felicidade é a minha também. Eu não preciso do mundo inteiro, só preciso de você. E enquanto eu respirar, vou lutar todos os dias pra te mostrar o quanto eu TE AMO. ❤️
+          Eu posso não ser o cara mais foda do mundo, mas pra você eu quero ser o melhor que eu puder. Eu quero ser o motivo do teu sorriso, o abraço que te acalma, o colo que te dá força e o parceiro que nunca solta a tua mão. Eu prometo que vou fazer de tudo pra te ver feliz, porque a tua felicidade é a minha também. Eu não preciso do mundo inteiro, só preciso de você. E enquanto eu respirar, vou lutar todos os dias pra te mostrar o quanto eu TE AMO.
         </div>
         <canvas id="scratchCanvas"></canvas>
       </div>
@@ -758,7 +758,7 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
             
             setTimeout(() => {
               mainContent.classList.add('visible');
-              iniciarRaspadinha(); // Inicializa a raspadinha quando visível
+              iniciarRaspadinha();
             }, 50);
 
             iniciarAnimacao();
@@ -885,7 +885,6 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       sCanvas.width = sWrapper.offsetWidth;
       sCanvas.height = sWrapper.offsetHeight;
 
-      // Desenha a camada roxa brilhante por cima
       const gradient = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
       gradient.addColorStop(0, '#7e22ce');
       gradient.addColorStop(0.5, '#a855f7');
@@ -893,12 +892,11 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       sCtx.fillStyle = gradient;
       sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
 
-      // Texto guia em cima da camada
       sCtx.fillStyle = '#ffffff';
       sCtx.font = 'bold 16px Inter, sans-serif';
       sCtx.textAlign = 'center';
       sCtx.textBaseline = 'middle';
-      sCtx.fillText('✨ RASPE AQUI COM O DEDO ✨', sCanvas.width / 2, sCanvas.height / 2);
+      sCtx.fillText('RASPE AQUI COM O DEDO', sCanvas.width / 2, sCanvas.height / 2);
 
       let isDrawing = false;
 
