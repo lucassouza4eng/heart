@@ -28,6 +28,33 @@
       overflow-x: hidden;
     }
 
+    /* --- CONTROLE FLUTUANTE DE MÚSICA --- */
+    .music-control-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10002;
+      background: rgba(20, 10, 30, 0.85);
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      border-radius: 30px;
+      padding: 10px 18px;
+      color: #e9d5ff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .music-control-btn:hover {
+      background: rgba(168, 85, 247, 0.3);
+      transform: scale(1.05);
+    }
+
     /* --- TELA DE LOGIN & ANIMACAO DE FUNDO --- */
     .login-overlay {
       position: fixed;
@@ -246,6 +273,70 @@
       height: auto;
     }
 
+    /* --- ESTILO DA RASPADINHA --- */
+    .scratch-container {
+      width: 100%;
+      background: rgba(20, 10, 30, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .scratch-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #e9d5ff;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+    }
+
+    .scratch-card-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 220px;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 5, 18, 0.9);
+      border: 1px dashed rgba(168, 85, 247, 0.4);
+    }
+
+    .scratch-secret-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      color: #e9d5ff;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      user-select: none;
+      box-sizing: border-box;
+      text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+    }
+
+    #scratchCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      touch-action: none;
+    }
+
     /* CARTÕES DE POEMA */
     .poem-card {
       width: 100%;
@@ -271,7 +362,7 @@
       font-weight: 500;
     }
 
-    /* BLOCO DE IDIOMAS (SEM TÍTULO E CENTRALIZADO) */
+    /* BLOCO DE IDIOMAS */
     .languages-card {
       width: 100%;
       background: rgba(15, 8, 25, 0.7);
@@ -331,10 +422,24 @@
       .intro-text-box {
         font-size: 1.8rem;
       }
+      .scratch-secret-text {
+        font-size: 0.85rem;
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- ÁUDIO DE FUNDO (MC KEVIN - NOSSO LUGAR - REFRÃO) -->
+  <audio id="bgMusic" loop>
+    <source src="https://ia801503.us.archive.org/15/items/mc-kevin-nosso-lugar-refrao/mc-kevin-nosso-lugar.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- BOTÃO FLUTUANTE PARA PARAR/TOCAR MÚSICA -->
+  <button class="music-control-btn" id="musicBtn" onclick="toggleMusic()">
+    <span id="musicIcon">🎵</span> <span id="musicBtnText">Pausar Música</span>
+  </button>
 
   <!-- TELA DE LOGIN -->
   <div class="login-overlay" id="loginOverlay">
@@ -365,6 +470,17 @@
     <!-- 1º ELEMENTO: CORAÇÃO NO TOPO -->
     <div class="heart-preview-box">
       <canvas id="heartCanvas" width="320" height="320"></canvas>
+    </div>
+
+    <!-- 2º ELEMENTO: RASPADINHA INTERATIVA -->
+    <div class="scratch-container">
+      <div class="scratch-title">✨ Raspe aqui embaixo com o dedo/mouse para ver uma mensagem especial ✨</div>
+      <div class="scratch-card-wrapper" id="scratchWrapper">
+        <div class="scratch-secret-text">
+          Eu posso não ser o cara mais foda do mundo, mas pra você eu quero ser o melhor que eu puder. Eu quero ser o motivo do teu sorriso, o abraço que te acalma, o colo que te dá força e o parceiro que nunca solta a tua mão. Eu prometo que vou fazer de tudo pra te ver feliz, porque a tua felicidade é a minha também. Eu não preciso do mundo inteiro, só preciso de você. E enquanto eu respirar, vou lutar todos os dias pra te mostrar o quanto eu TE AMO. ❤️
+        </div>
+        <canvas id="scratchCanvas"></canvas>
+      </div>
     </div>
 
     <!-- POEMAS -->
@@ -402,7 +518,7 @@ eu me apaixonei até pelas letras do seu nome, me apaixonei pelo seu jeito, me a
 no silêncio do meu coração, você é a canção mais bela que ecoa dentro dele.
     </div>
 
-    <!-- 35 IDIOMAS NO FINAL DA PÁGINA (APENAS A ESCRITA CENTRALIZADA) -->
+    <!-- 35 IDIOMAS NO FINAL DA PÁGINA -->
     <div class="languages-card">
       <div class="lang-list">
         
@@ -452,6 +568,42 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
   </div>
 
   <script>
+    // SISTEMA DE ÁUDIO E VOLUME
+    const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicBtnText = document.getElementById('musicBtnText');
+
+    function tocarMusicaComFadeIn() {
+      audio.currentTime = 52; 
+      audio.volume = 0.05;
+      audio.play().then(() => {
+        musicBtn.style.display = 'flex';
+        
+        let vol = 0.05;
+        const fadeInterval = setInterval(() => {
+          if (vol < 0.7) {
+            vol += 0.05;
+            audio.volume = Math.min(vol, 0.7);
+          } else {
+            clearInterval(fadeInterval);
+          }
+        }, 300);
+      }).catch(e => console.log("Autoplay bloqueado pelo navegador"));
+    }
+
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+        musicIcon.textContent = '🎵';
+        musicBtnText.textContent = 'Pausar Música';
+      } else {
+        audio.pause();
+        musicIcon.textContent = '🔇';
+        musicBtnText.textContent = 'Tocar Música';
+      }
+    }
+
     // Aparição suave do login
     setTimeout(() => {
       document.getElementById('loginCard').classList.add('visible');
@@ -593,6 +745,7 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       setTimeout(() => {
         introText.classList.add('explode');
         dispararExplosao();
+        tocarMusicaComFadeIn();
 
         setTimeout(() => {
           introScreen.style.opacity = '0';
@@ -605,6 +758,7 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
             
             setTimeout(() => {
               mainContent.classList.add('visible');
+              iniciarRaspadinha(); // Inicializa a raspadinha quando visível
             }, 50);
 
             iniciarAnimacao();
@@ -720,6 +874,84 @@ no silêncio do meu coração, você é a canção mais bela que ecoa dentro del
       }
 
       draw();
+    }
+
+    // SISTEMA DA RASPADINHA INTERATIVA
+    function iniciarRaspadinha() {
+      const sCanvas = document.getElementById('scratchCanvas');
+      const sWrapper = document.getElementById('scratchWrapper');
+      const sCtx = sCanvas.getContext('2d');
+
+      sCanvas.width = sWrapper.offsetWidth;
+      sCanvas.height = sWrapper.offsetHeight;
+
+      // Desenha a camada roxa brilhante por cima
+      const gradient = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
+      gradient.addColorStop(0, '#7e22ce');
+      gradient.addColorStop(0.5, '#a855f7');
+      gradient.addColorStop(1, '#581c87');
+      sCtx.fillStyle = gradient;
+      sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
+
+      // Texto guia em cima da camada
+      sCtx.fillStyle = '#ffffff';
+      sCtx.font = 'bold 16px Inter, sans-serif';
+      sCtx.textAlign = 'center';
+      sCtx.textBaseline = 'middle';
+      sCtx.fillText('✨ RASPE AQUI COM O DEDO ✨', sCanvas.width / 2, sCanvas.height / 2);
+
+      let isDrawing = false;
+
+      function scratch(x, y) {
+        sCtx.globalCompositeOperation = 'destination-out';
+        sCtx.beginPath();
+        sCtx.arc(x, y, 22, 0, Math.PI * 2, false);
+        sCtx.fill();
+      }
+
+      function getPos(e) {
+        const rect = sCanvas.getBoundingClientRect();
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+
+        if (e.touches && e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        }
+
+        return {
+          x: clientX - rect.left,
+          y: clientY - rect.top
+        };
+      }
+
+      sCanvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        const pos = getPos(e);
+        scratch(pos.x, pos.y);
+      });
+
+      sCanvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        scratch(pos.x, pos.y);
+      });
+
+      window.addEventListener('mouseup', () => { isDrawing = false; });
+
+      sCanvas.addEventListener('touchstart', (e) => {
+        isDrawing = true;
+        const pos = getPos(e);
+        scratch(pos.x, pos.y);
+      });
+
+      sCanvas.addEventListener('touchmove', (e) => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        scratch(pos.x, pos.y);
+      });
+
+      sCanvas.addEventListener('touchend', () => { isDrawing = false; });
     }
   </script>
 </body>
