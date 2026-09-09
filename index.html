@@ -16,7 +16,7 @@
     }
 
     body {
-      background-color: #0d1117;
+      background-color: #000000;
       color: #c9d1d9;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
@@ -25,77 +25,110 @@
       align-items: center;
       justify-content: center;
       padding: 20px 10px;
+      overflow-x: hidden;
     }
 
-    /* --- TELA DE LOGIN --- */
+    /* --- TELA DE LOGIN & ANIMACAO DE FUNDO --- */
     .login-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: #0d1117;
+      background-color: #000000;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      overflow: hidden;
     }
 
-    .login-card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 30px 24px;
+    /* Canvas para os corações caindo/subindo no fundo */
+    #heartsBgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 360px;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Caixinha de Login com Bordas Arredondadas e Fundo Desfocado */
+    .login-card {
+      position: relative;
+      z-index: 2;
+      background: rgba(20, 10, 30, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 24px;
+      padding: 36px 28px;
+      width: 90%;
+      max-width: 380px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 40px rgba(168, 85, 247, 0.25), 0 0 20px rgba(0, 0, 0, 0.8);
     }
 
     .login-card h2 {
-      font-size: 1.1rem;
-      color: #c9d1d9;
-      margin-bottom: 20px;
+      font-size: 1.15rem;
+      color: #e9d5ff;
+      margin-bottom: 24px;
       font-weight: 600;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
     }
 
     .login-card input {
       width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 12px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      color: #c9d1d9;
-      font-size: 0.9rem;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      background: rgba(10, 5, 18, 0.7);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 0.95rem;
       outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .login-card input::placeholder {
+      color: #a855f7;
+      opacity: 0.6;
     }
 
     .login-card input:focus {
-      border-color: #A855F7;
+      border-color: #c084fc;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+      background: rgba(15, 8, 25, 0.9);
     }
 
     .login-card button {
       width: 100%;
-      padding: 10px;
-      background: #A855F7;
-      color: #fff;
+      padding: 12px;
+      margin-top: 6px;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: #ffffff;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+      transition: all 0.3s ease;
     }
 
     .login-card button:hover {
-      background: #9333ea;
+      background: linear-gradient(135deg, #c084fc, #9333ea);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.7);
+      transform: translateY(-2px);
     }
 
     .error-msg {
-      color: #ff5f56;
-      font-size: 0.8rem;
-      margin-top: 10px;
+      color: #ff4d4d;
+      font-size: 0.85rem;
+      margin-top: 14px;
       display: none;
+      text-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
     }
 
     /* --- CONTEÚDO DO SITE --- */
@@ -107,7 +140,7 @@
       border-radius: 12px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       overflow: hidden;
-      display: none; /* Escondido até fazer login */
+      display: none; /* Escondido até o login */
       flex-direction: column;
     }
 
@@ -240,8 +273,10 @@
 </head>
 <body>
 
-  <!-- TELA DE LOGIN -->
+  <!-- TELA DE LOGIN COM ANIMAÇÃO -->
   <div class="login-overlay" id="loginOverlay">
+    <canvas id="heartsBgCanvas"></canvas>
+
     <div class="login-card">
       <h2>deseja acessar o conteudo da pagina? 💗</h2>
       <input type="text" id="userInput" placeholder="Usuário">
@@ -320,7 +355,99 @@ done()</div>
   </div>
 
   <script>
-    // CREDENCIAIS DE ACESSO
+    // --- LÓGICA DA ANIMAÇÃO DOS CORAÇÕES ROXOS NO FUNDO DO LOGIN ---
+    const bgCanvas = document.getElementById('heartsBgCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+
+    function resizeBgCanvas() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+    }
+    resizeBgCanvas();
+    window.addEventListener('resize', resizeBgCanvas);
+
+    const heartsArray = [];
+    const totalHearts = 50; // Quantidade de corações flutuantes
+
+    class FloatingHeart {
+      constructor() {
+        this.reset(true);
+      }
+
+      reset(firstTime = false) {
+        this.x = Math.random() * bgCanvas.width;
+        this.y = firstTime ? Math.random() * bgCanvas.height : bgCanvas.height + 20;
+        this.size = Math.random() * 12 + 8; // Tamanhos pequenos e variados
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.speedX = Math.sin(Math.random() * Math.PI * 2) * 0.5;
+        this.opacity = Math.random() * 0.6 + 0.3;
+        // Tons de roxo vibrante
+        const purpleTones = ['#a855f7', '#c084fc', '#9333ea', '#d8b4fe', '#7e22ce'];
+        this.color = purpleTones[Math.floor(Math.random() * purpleTones.length)];
+      }
+
+      update() {
+        this.y -= this.speedY;
+        this.x += Math.sin(this.y * 0.02) * 0.5;
+
+        if (this.y < -20) {
+          this.reset(false);
+        }
+      }
+
+      draw() {
+        bgCtx.save();
+        bgCtx.globalAlpha = this.opacity;
+        bgCtx.fillStyle = this.color;
+        bgCtx.shadowColor = this.color;
+        bgCtx.shadowBlur = 8;
+
+        // Desenhar forma do coração
+        bgCtx.beginPath();
+        const topCurveHeight = this.size * 0.3;
+        bgCtx.moveTo(this.x, this.y + topCurveHeight);
+        bgCtx.bezierCurveTo(
+          this.x, this.y, 
+          this.x - this.size / 2, this.y, 
+          this.x - this.size / 2, this.y + topCurveHeight
+        );
+        bgCtx.bezierCurveTo(
+          this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+          this.x, this.y + this.size, 
+          this.x, this.y + this.size
+        );
+        bgCtx.bezierCurveTo(
+          this.x, this.y + this.size, 
+          this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, 
+          this.x + this.size / 2, this.y + topCurveHeight
+        );
+        bgCtx.bezierCurveTo(
+          this.x + this.size / 2, this.y, 
+          this.x, this.y, 
+          this.x, this.y + topCurveHeight
+        );
+        bgCtx.closePath();
+        bgCtx.fill();
+        bgCtx.restore();
+      }
+    }
+
+    for (let i = 0; i < totalHearts; i++) {
+      heartsArray.push(new FloatingHeart());
+    }
+
+    let bgAnimationId;
+    function animateHearts() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      heartsArray.forEach(heart => {
+        heart.update();
+        heart.draw();
+      });
+      bgAnimationId = requestAnimationFrame(animateHearts);
+    }
+    animateHearts();
+
+    // --- CREDENCIAIS DE ACESSO ---
     const usuarioCorreto = "yasmin";
     const senhaCorreta = "2777";
 
@@ -330,6 +457,7 @@ done()</div>
       const errorMsg = document.getElementById('errorMsg');
 
       if (user === usuarioCorreto && pass === senhaCorreta) {
+        cancelAnimationFrame(bgAnimationId); // Parar animação de fundo
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'flex';
         iniciarAnimacao();
@@ -338,6 +466,12 @@ done()</div>
       }
     }
 
+    // Permitir pressionar Enter para entrar
+    document.getElementById('passInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') validarLogin();
+    });
+
+    // --- ANIMAÇÃO PRINCIPAL DO CORAÇÃO PYTHON ---
     function iniciarAnimacao() {
       const canvas = document.getElementById('heartCanvas');
       const ctx = canvas.getContext('2d');
