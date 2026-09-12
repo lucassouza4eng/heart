@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TESTE - Sandbox 3D</title>
-    
-    <!-- Bibliotecas Three.js para renderização 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <title>TESTE - Interativo</title>
 
     <style>
         * {
@@ -18,7 +14,6 @@
         }
 
         body {
-            /* Fundo roxo muito claro e luminoso */
             background: linear-gradient(135deg, #f8f5ff 0%, #ede9fe 100%);
             color: #2e1065;
             overflow-x: hidden;
@@ -26,28 +21,23 @@
             position: relative;
         }
 
-        /* Container Canvas ocupando todo o fundo */
-        #canvas-container {
+        /* Canvas de partículas 2D no fundo */
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 1; /* Fica no fundo */
-            filter: blur(3px); /* Desfoque sutil e leve no fundo */
-            transition: filter 0.4s ease-out;
-            cursor: grab;
+            z-index: 1;
+            filter: blur(1.5px); /* Desfoque leve e elegante */
+            transition: filter 0.3s ease;
         }
 
-        #canvas-container:active {
-            cursor: grabbing;
+        #particle-canvas:hover {
+            filter: blur(0px); /* Foca totalmente durante a interação */
         }
 
-        #canvas-container:hover {
-            filter: blur(0px); /* Foca totalmente ao passar o mouse ou interagir */
-        }
-
-        /* Seção Principal (Hero) */
+        /* Conteúdo principal em cima do fundo */
         .hero-section {
             display: flex;
             align-items: center;
@@ -56,12 +46,12 @@
             padding: 0 8%;
             position: relative;
             z-index: 10;
-            pointer-events: none; /* Permite clicar através do texto para mexer no 3D ao fundo */
+            pointer-events: none; /* Permite arrastar o fundo mesmo sobre a área do texto */
         }
 
         .text-content {
-            max-width: 550px;
-            pointer-events: auto; /* Mantém botões e textos clicáveis */
+            max-width: 600px;
+            pointer-events: auto;
         }
 
         /* Título Grande */
@@ -93,16 +83,15 @@
             border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, background 0.3s;
         }
 
         .btn-primary:hover {
             background: #7c3aed;
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
         }
 
-        /* Seções de Conteúdo Claras */
+        /* Cartões explicativos ao rolar */
         .content-section {
             min-height: 80vh;
             display: flex;
@@ -135,7 +124,7 @@
             line-height: 1.6;
         }
 
-        /* Animações de Scroll */
+        /* Animação ao rolar */
         .reveal {
             opacity: 0;
             transition: all 0.8s ease-out;
@@ -158,37 +147,35 @@
 </head>
 <body>
 
-    <!-- Container do 3D fixo no Fundo -->
-    <div id="canvas-container"></div>
+    <!-- Canvas para os inúmeros corações 2D -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- Seção Principal -->
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TESTE</h1>
-            <p>Os corações agora flutuam no fundo da tela com um desfoque suave. Arraste com o mouse em qualquer parte para interagir!</p>
+            <p>Passe o mouse ou arraste o dedo pela tela para mover e empurrar a nuvem de corações em tempo real!</p>
             <button class="btn-primary">Clique aqui ↗</button>
         </div>
     </section>
 
-    <!-- Seções com Animação ao Rolar a Página -->
+    <!-- Seções com Animação de Scroll -->
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
-            <h2>Tecnologia Dinâmica</h2>
-            <p>Conforme você navega pela página, o conteúdo reage ao movimento para criar uma experiência fluida e interativa.</p>
+            <h2>Interatividade Fluida</h2>
+            <p>Superfície plana interativa otimizada para toque no celular e movimento do cursor no computador.</p>
         </div>
     </section>
 
     <section id="servicos" class="content-section">
         <div class="card reveal float-right">
-            <h2>Design & Performance</h2>
-            <p>Integração perfeita entre interfaces limpas, cores iluminadas e elementos 3D interativos no plano de fundo.</p>
+            <h2>Design Moderno</h2>
+            <p>Efeitos de luz, tons roxos bem iluminados e física de partículas leve em tela cheia.</p>
         </div>
     </section>
 
     <script>
-        // --- ANIMAÇÃO DE SCROLL E DESFOQUE ---
-        const container = document.getElementById('canvas-container');
-
+        // --- EFEITO DE ROLAGEM DOS TEXTOS ---
         window.addEventListener('scroll', () => {
             const reveals = document.querySelectorAll('.reveal');
             const scrollPos = window.scrollY;
@@ -201,127 +188,134 @@
                 }
             });
 
-            // Movimento suave no título ao rolar
             const heroTitle = document.getElementById('hero-title');
             if (heroTitle) {
                 heroTitle.style.transform = `translateX(${scrollPos * 0.12}px)`;
             }
-
-            // Remove o leve desfoque ao rolar a página
-            if (scrollPos > 80) {
-                container.style.filter = 'blur(0px)';
-            } else {
-                container.style.filter = 'blur(3px)';
-            }
         });
 
-        // --- RENDERIZAÇÃO DOS CORAÇÕES NO FUNDO (THREE.JS) ---
-        const scene = new THREE.Scene();
+        // --- SISTEMA DE CORAÇÕES PLANNOS (CANVAS 2D) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
 
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 9);
+        let width, height;
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
+        // Posição do Mouse / Toque do Dedo
+        const mouse = { x: -1000, y: -1000, radius: 150 };
 
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.enableZoom = true;
-
-        // Formato do Coração
-        const heartShape = new THREE.Shape();
-        heartShape.moveTo(0, 0);
-        heartShape.bezierCurveTo(0, 0.5, 0.5, 1, 1, 1);
-        heartShape.bezierCurveTo(1.5, 1, 1.5, 0.5, 1.5, 0);
-        heartShape.bezierCurveTo(1.5, -0.5, 0.8, -1.2, 0, -1.8);
-        heartShape.bezierCurveTo(-0.8, -1.2, -1.5, -0.5, -1.5, 0);
-        heartShape.bezierCurveTo(-1.5, 0.5, -1.5, 1, -1, 1);
-        heartShape.bezierCurveTo(-0.5, 1, 0, 0.5, 0, 0);
-
-        const extrudeSettings = {
-            depth: 0.35,
-            bevelEnabled: true,
-            bevelSegments: 5,
-            steps: 2,
-            bevelSize: 0.1,
-            bevelThickness: 0.1
-        };
-
-        const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-        geometry.center();
-
-        // Cores suaves em roxo e lilás
-        const materials = [
-            new THREE.MeshPhongMaterial({ color: 0x8b5cf6, emissive: 0x4c1d95, specular: 0xffffff, shininess: 90 }),
-            new THREE.MeshPhongMaterial({ color: 0xa855f7, emissive: 0x581c87, specular: 0xffffff, shininess: 100 }),
-            new THREE.MeshPhongMaterial({ color: 0xc084fc, emissive: 0x6b21a8, specular: 0xffffff, shininess: 80 }),
-            new THREE.MeshPhongMaterial({ color: 0xd8b4fe, emissive: 0x7e22ce, specular: 0xffffff, shininess: 95 })
-        ];
-
-        // Vários corações espalhados pela tela
-        const heartsData = [
-            { x: 3.2,  y: 1.2,  z: 0,    scale: 0.9, speedY: 0.008, matIndex: 0, floatSpeed: 1.2 },
-            { x: -3.5, y: -1.0, z: -1.2, scale: 0.7, speedY: 0.012, matIndex: 1, floatSpeed: 1.8 },
-            { x: 2.2,  y: -2.2, z: 0.5,  scale: 0.6, speedY: 0.015, matIndex: 2, floatSpeed: 2.0 },
-            { x: -2.8, y: 2.0,  z: -0.5, scale: 0.65,speedY: 0.010, matIndex: 3, floatSpeed: 1.5 },
-            { x: 0.5,  y: 2.5,  z: -2.0, scale: 0.5, speedY: 0.014, matIndex: 0, floatSpeed: 2.2 },
-            { x: -1.2, y: -2.8, z: -1.5, scale: 0.55,speedY: 0.009, matIndex: 2, floatSpeed: 1.3 },
-            { x: 4.5,  y: -1.5, z: -2.5, scale: 0.8, speedY: 0.011, matIndex: 1, floatSpeed: 1.6 }
-        ];
-
-        const hearts = [];
-
-        heartsData.forEach((data, index) => {
-            const mesh = new THREE.Mesh(geometry, materials[data.matIndex]);
-            mesh.position.set(data.x, data.y, data.z);
-            mesh.scale.set(data.scale, data.scale, data.scale);
-            scene.add(mesh);
-
-            hearts.push({
-                mesh: mesh,
-                baseY: data.y,
-                speedY: data.speedY,
-                floatSpeed: data.floatSpeed,
-                offset: index * 1000
-            });
-        });
-
-        // Iluminação
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
-        scene.add(ambientLight);
-
-        const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
-        pointLight1.position.set(5, 5, 5);
-        scene.add(pointLight1);
-
-        const pointLight2 = new THREE.PointLight(0xc084fc, 0.8);
-        pointLight2.position.set(-5, -5, 2);
-        scene.add(pointLight2);
-
-        // Loop de Animação
-        function animate(time) {
-            requestAnimationFrame(animate);
-
-            hearts.forEach((h) => {
-                h.mesh.rotation.y += h.speedY;
-                h.mesh.position.y = h.baseY + Math.sin((time * 0.001 * h.floatSpeed) + h.offset) * 0.2;
-            });
-
-            controls.update();
-            renderer.render(scene, camera);
+        function updateMousePos(x, y) {
+            mouse.x = x;
+            mouse.y = y;
         }
 
-        animate(0);
-
-        // Ajuste no redimensionamento da janela
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        window.addEventListener('mousemove', (e) => updateMousePos(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                updateMousePos(e.touches[0].clientX, e.touches[0].clientY);
+            }
         });
+        window.addEventListener('mouseleave', () => updateMousePos(-1000, -1000));
+
+        // Desenhar forma do coração 2D
+        function drawHeart(ctx, x, y, size, color, opacity) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.beginPath();
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = color;
+
+            const topCurveHeight = size * 0.3;
+            ctx.moveTo(0, topCurveHeight);
+            ctx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, topCurveHeight);
+            ctx.bezierCurveTo(-size / 2, (size + topCurveHeight) / 2, 0, size, 0, size);
+            ctx.bezierCurveTo(0, size, size / 2, (size + topCurveHeight) / 2, size / 2, topCurveHeight);
+            ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, topCurveHeight);
+            
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Classe de Partícula de Coração
+        const colors = ['#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe', '#7c3aed'];
+
+        class HeartParticle {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = Math.random() * width;
+                this.y = initial ? Math.random() * height : height + 20;
+                this.size = Math.random() * 14 + 10;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = -Math.random() * 0.8 - 0.3;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.6 + 0.3;
+                this.density = Math.random() * 20 + 5;
+            }
+
+            update() {
+                // Subida contínua
+                this.y += this.vy;
+                this.x += this.vx;
+
+                // Interatividade com Mouse/Dedo (Repulsão)
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < mouse.radius) {
+                    const forceDirectionX = dx / distance;
+                    const forceDirectionY = dy / distance;
+                    const maxDistance = mouse.radius;
+                    const force = (maxDistance - distance) / maxDistance;
+                    const directionX = forceDirectionX * force * this.density;
+                    const directionY = forceDirectionY * force * this.density;
+
+                    this.x -= directionX;
+                    this.y -= directionY;
+                }
+
+                // Reinicia ao sair da tela no topo
+                if (this.y < -30 || this.x < -30 || this.x > width + 30) {
+                    this.reset(false);
+                }
+            }
+
+            draw() {
+                drawHeart(ctx, this.x, this.y, this.size, this.color, this.opacity);
+            }
+        }
+
+        // Criar uma multidão de corações (120 partículas)
+        const heartCount = 120;
+        const hearts = [];
+        for (let i = 0; i < heartCount; i++) {
+            hearts.push(new HeartParticle());
+        }
+
+        // Loop principal da animação
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            hearts.forEach(heart => {
+                heart.update();
+                heart.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
     </script>
 </body>
 </html>
