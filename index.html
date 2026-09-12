@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TESTE - Interativo</title>
+    <title>TESTE - Sandbox de Corações</title>
 
     <style>
         * {
@@ -21,7 +21,6 @@
             position: relative;
         }
 
-        /* Canvas de partículas 2D no fundo */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -29,15 +28,14 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            filter: blur(1.5px); /* Desfoque leve e elegante */
+            filter: blur(1px);
             transition: filter 0.3s ease;
         }
 
         #particle-canvas:hover {
-            filter: blur(0px); /* Foca totalmente durante a interação */
+            filter: blur(0px);
         }
 
-        /* Conteúdo principal em cima do fundo */
         .hero-section {
             display: flex;
             align-items: center;
@@ -46,7 +44,7 @@
             padding: 0 8%;
             position: relative;
             z-index: 10;
-            pointer-events: none; /* Permite arrastar o fundo mesmo sobre a área do texto */
+            pointer-events: none;
         }
 
         .text-content {
@@ -54,7 +52,6 @@
             pointer-events: auto;
         }
 
-        /* Título Grande */
         .text-content h1 {
             font-size: 6rem;
             font-weight: 900;
@@ -91,7 +88,6 @@
             transform: translateY(-3px);
         }
 
-        /* Cartões explicativos ao rolar */
         .content-section {
             min-height: 80vh;
             display: flex;
@@ -124,7 +120,6 @@
             line-height: 1.6;
         }
 
-        /* Animação ao rolar */
         .reveal {
             opacity: 0;
             transition: all 0.8s ease-out;
@@ -147,35 +142,31 @@
 </head>
 <body>
 
-    <!-- Canvas para os inúmeros corações 2D -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Seção Principal -->
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TESTE</h1>
-            <p>Passe o mouse ou arraste o dedo pela tela para mover e empurrar a nuvem de corações em tempo real!</p>
+            <p>Arraste o dedo ou o cursor para abrir caminho em meio à tempestade de corações!</p>
             <button class="btn-primary">Clique aqui ↗</button>
         </div>
     </section>
 
-    <!-- Seções com Animação de Scroll -->
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
-            <h2>Interatividade Fluida</h2>
-            <p>Superfície plana interativa otimizada para toque no celular e movimento do cursor no computador.</p>
+            <h2>Alta Densidade</h2>
+            <p>Centenas de partículas renderizadas simultaneamente para criar um efeito visual dinâmico e preenchido.</p>
         </div>
     </section>
 
     <section id="servicos" class="content-section">
         <div class="card reveal float-right">
-            <h2>Design Moderno</h2>
-            <p>Efeitos de luz, tons roxos bem iluminados e física de partículas leve em tela cheia.</p>
+            <h2>Física de Partículas</h2>
+            <p>Efeito de onda e dispersão responsivo ao menor toque na tela.</p>
         </div>
     </section>
 
     <script>
-        // --- EFEITO DE ROLAGEM DOS TEXTOS ---
         window.addEventListener('scroll', () => {
             const reveals = document.querySelectorAll('.reveal');
             const scrollPos = window.scrollY;
@@ -194,7 +185,6 @@
             }
         });
 
-        // --- SISTEMA DE CORAÇÕES PLANNOS (CANVAS 2D) ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -206,8 +196,7 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Posição do Mouse / Toque do Dedo
-        const mouse = { x: -1000, y: -1000, radius: 150 };
+        const mouse = { x: -1000, y: -1000, radius: 180 };
 
         function updateMousePos(x, y) {
             mouse.x = x;
@@ -222,7 +211,6 @@
         });
         window.addEventListener('mouseleave', () => updateMousePos(-1000, -1000));
 
-        // Desenhar forma do coração 2D
         function drawHeart(ctx, x, y, size, color, opacity) {
             ctx.save();
             ctx.translate(x, y);
@@ -242,8 +230,7 @@
             ctx.restore();
         }
 
-        // Classe de Partícula de Coração
-        const colors = ['#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe', '#7c3aed'];
+        const colors = ['#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe', '#7c3aed', '#6d28d9'];
 
         class HeartParticle {
             constructor() {
@@ -253,22 +240,18 @@
             reset(initial = false) {
                 this.x = Math.random() * width;
                 this.y = initial ? Math.random() * height : height + 20;
-                this.size = Math.random() * 14 + 10;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = -Math.random() * 0.8 - 0.3;
+                this.size = Math.random() * 10 + 6;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = -Math.random() * 0.9 - 0.3;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.6 + 0.3;
-                this.density = Math.random() * 20 + 5;
+                this.opacity = Math.random() * 0.65 + 0.25;
+                this.density = Math.random() * 25 + 10;
             }
 
             update() {
-                // Subida contínua
                 this.y += this.vy;
                 this.x += this.vx;
 
-                // Interatividade com Mouse/Dedo (Repulsão)
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
@@ -285,8 +268,7 @@
                     this.y -= directionY;
                 }
 
-                // Reinicia ao sair da tela no topo
-                if (this.y < -30 || this.x < -30 || this.x > width + 30) {
+                if (this.y < -20 || this.x < -20 || this.x > width + 20) {
                     this.reset(false);
                 }
             }
@@ -296,14 +278,13 @@
             }
         }
 
-        // Criar uma multidão de corações (120 partículas)
-        const heartCount = 120;
+        // Quantidade aumentada para 350 corações
+        const heartCount = 350;
         const hearts = [];
         for (let i = 0; i < heartCount; i++) {
             hearts.push(new HeartParticle());
         }
 
-        // Loop principal da animação
         function animate() {
             ctx.clearRect(0, 0, width, height);
 
