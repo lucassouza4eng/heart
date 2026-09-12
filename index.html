@@ -57,9 +57,16 @@
             font-weight: 900;
             letter-spacing: 2px;
             color: #6d28d9;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
+        }
+
+        .text-content h2.subtitle {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 15px;
         }
 
         .text-content p {
@@ -74,18 +81,25 @@
             background: #8b5cf6;
             color: #ffffff;
             border: none;
-            padding: 14px 32px;
+            padding: 16px 36px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+            user-select: none;
         }
 
         .btn-primary:hover {
             background: #7c3aed;
             transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
         }
 
         .content-section {
@@ -147,8 +161,9 @@
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TESTE</h1>
+            <h2 class="subtitle">oque mudou???????????????</h2>
             <p>Arraste o dedo ou o cursor para abrir caminho em meio à tempestade de corações!</p>
-            <button class="btn-primary">Clique aqui ↗</button>
+            <button id="action-btn" class="btn-primary">Explodir Corações ↗</button>
         </div>
     </section>
 
@@ -239,14 +254,10 @@
 
             reset(initial = false) {
                 this.x = Math.random() * width;
-                // Renasce logo abaixo da borda inferior para regeneração imediata
                 this.y = initial ? Math.random() * height : height + (Math.random() * 20);
                 this.size = Math.random() * 11 + 6;
-                
-                // Aumento significativo na velocidade de subida
                 this.vx = (Math.random() - 0.5) * 1.5;
                 this.vy = -(Math.random() * 3.5 + 2.0); 
-                
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.opacity = Math.random() * 0.7 + 0.3;
                 this.density = Math.random() * 35 + 15;
@@ -272,7 +283,6 @@
                     this.y -= directionY;
                 }
 
-                // Reinicialização rápida ao sair dos limites
                 if (this.y < -20 || this.x < -40 || this.x > width + 40) {
                     this.reset(false);
                 }
@@ -288,6 +298,24 @@
         for (let i = 0; i < heartCount; i++) {
             hearts.push(new HeartParticle());
         }
+
+        // Ação do Botão Funcional: Dispara onda de repulsão a partir do botão
+        const actionBtn = document.getElementById('action-btn');
+        actionBtn.addEventListener('click', (e) => {
+            const rect = actionBtn.getBoundingClientRect();
+            const btnX = rect.left + rect.width / 2;
+            const btnY = rect.top + rect.height / 2;
+
+            hearts.forEach(heart => {
+                const dx = heart.x - btnX;
+                const dy = heart.y - btnY;
+                const angle = Math.atan2(dy, dx);
+                const force = Math.random() * 25 + 15;
+
+                heart.vx = Math.cos(angle) * force;
+                heart.vy = Math.sin(angle) * force;
+            });
+        });
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
