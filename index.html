@@ -13,6 +13,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background: linear-gradient(135deg, #f8f5ff 0%, #ede9fe 100%);
             color: #2e1065;
@@ -57,16 +61,9 @@
             font-weight: 900;
             letter-spacing: 2px;
             color: #6d28d9;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
-        }
-
-        .text-content h2.subtitle {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #7c3aed;
-            margin-bottom: 15px;
         }
 
         .text-content p {
@@ -77,11 +74,17 @@
             font-weight: 500;
         }
 
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         .btn-primary {
             background: #8b5cf6;
             color: #ffffff;
             border: none;
-            padding: 16px 36px;
+            padding: 16px 32px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 25px;
@@ -100,6 +103,30 @@
         .btn-primary:active {
             transform: translateY(1px);
             box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #6d28d9;
+            border: 2px solid #8b5cf6;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s, background 0.3s, color 0.3s;
+            user-select: none;
+        }
+
+        .btn-secondary:hover {
+            background: #8b5cf6;
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(1px);
         }
 
         .content-section {
@@ -127,6 +154,13 @@
             color: #6d28d9;
             margin-bottom: 15px;
             font-size: 1.8rem;
+        }
+
+        .card h3.subtitle {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 10px;
         }
 
         .card p {
@@ -161,15 +195,18 @@
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TESTE</h1>
-            <h2 class="subtitle">oque mudou???????????????</h2>
             <p>Arraste o dedo ou o cursor para abrir caminho em meio à tempestade de corações!</p>
-            <button id="action-btn" class="btn-primary">Explodir Corações ↗</button>
+            <div class="button-group">
+                <button id="action-btn" class="btn-primary">Explodir Corações ↗</button>
+                <button id="scroll-btn" class="btn-secondary">Descer Página ↓</button>
+            </div>
         </div>
     </section>
 
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
             <h2>Velocidade Aumentada</h2>
+            <h3 class="subtitle">oque mudou???????????????</h3>
             <p>Fluxo rápido e contínuo de partículas em movimento ascendente acelerado.</p>
         </div>
     </section>
@@ -299,9 +336,9 @@
             hearts.push(new HeartParticle());
         }
 
-        // Ação do Botão Funcional: Dispara onda de repulsão a partir do botão
+        // Botão 1: Explodir Corações
         const actionBtn = document.getElementById('action-btn');
-        actionBtn.addEventListener('click', (e) => {
+        actionBtn.addEventListener('click', () => {
             const rect = actionBtn.getBoundingClientRect();
             const btnX = rect.left + rect.width / 2;
             const btnY = rect.top + rect.height / 2;
@@ -315,6 +352,13 @@
                 heart.vx = Math.cos(angle) * force;
                 heart.vy = Math.sin(angle) * force;
             });
+        });
+
+        // Botão 2: Descer a Página
+        const scrollBtn = document.getElementById('scroll-btn');
+        scrollBtn.addEventListener('click', () => {
+            const targetSection = document.getElementById('sobre');
+            targetSection.scrollIntoView({ behavior: 'smooth' });
         });
 
         function animate() {
