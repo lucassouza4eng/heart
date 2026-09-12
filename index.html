@@ -58,7 +58,7 @@
         }
 
         .text-content h1 {
-            font-size: clamp(2.5rem, 10vw, 6rem);
+            font-size: clamp(2.5rem, 10vw, 5.5rem);
             font-weight: 900;
             letter-spacing: 1px;
             color: #6d28d9;
@@ -66,6 +66,7 @@
             text-transform: uppercase;
             text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
             word-break: break-word;
+            line-height: 1.1;
         }
 
         .text-content p {
@@ -76,20 +77,23 @@
             font-weight: 500;
         }
 
+        /* Botões posicionados um embaixo do outro */
         .button-group {
             display: flex;
+            flex-direction: column;
             gap: 12px;
-            flex-wrap: wrap;
+            width: 100%;
+            max-width: 320px;
         }
 
         .btn-primary, .btn-secondary {
-            padding: 12px 24px;
+            padding: 14px 24px;
             font-size: clamp(0.9rem, 3.5vw, 1.1rem);
             font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
             user-select: none;
-            flex: 1 1 auto;
+            width: 100%;
             text-align: center;
         }
 
@@ -208,7 +212,8 @@
 
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
-            <h1 id="hero-title">TITULO TESTE</h1>
+            <!-- Título em duas linhas -->
+            <h1 id="hero-title">TITULO<br>TESTE</h1>
             <p>passe o dedo nos corações para eles se mecherem!!!!</p>
             <div class="button-group">
                 <button id="action-btn" class="btn-primary">explodir corações</button>
