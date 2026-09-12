@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TESTE - Sandbox de Corações</title>
+    <title>TITULO</title>
 
     <style>
         * {
@@ -32,7 +32,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            filter: blur(1px);
+            filter: blur(0.5px);
             transition: filter 0.3s ease;
         }
 
@@ -150,17 +150,19 @@
             pointer-events: auto;
         }
 
+        .card h3.subtitle {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #a855f7;
+            text-transform: lowercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
         .card h2 {
             color: #6d28d9;
             margin-bottom: 15px;
             font-size: 1.8rem;
-        }
-
-        .card h3.subtitle {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #7c3aed;
-            margin-bottom: 10px;
         }
 
         .card p {
@@ -205,8 +207,8 @@
 
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
-            <h2>Velocidade Aumentada</h2>
             <h3 class="subtitle">oque mudou???????????????</h3>
+            <h2>Velocidade Aumentada</h2>
             <p>Fluxo rápido e contínuo de partículas em movimento ascendente acelerado.</p>
         </div>
     </section>
@@ -248,7 +250,7 @@
         window.addEventListener('resize', resize);
         resize();
 
-        const mouse = { x: -1000, y: -1000, radius: 220 };
+        const mouse = { x: -1000, y: -1000, radius: 200 };
 
         function updateMousePos(x, y) {
             mouse.x = x;
@@ -282,7 +284,7 @@
             ctx.restore();
         }
 
-        const colors = ['#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe', '#7c3aed', '#6d28d9'];
+        const colors = ['#a855f7', '#c084fc', '#d8b4fe', '#c084fc', '#e9d5ff', '#a855f7'];
 
         class HeartParticle {
             constructor() {
@@ -291,36 +293,44 @@
 
             reset(initial = false) {
                 this.x = Math.random() * width;
-                this.y = initial ? Math.random() * height : height + (Math.random() * 20);
-                this.size = Math.random() * 11 + 6;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = -(Math.random() * 3.5 + 2.0); 
+                this.y = initial ? Math.random() * height : height + (Math.random() * 30);
+                this.size = Math.random() * 9 + 5;
+                
+                // Velocidade de base mais suave
+                this.baseVx = (Math.random() - 0.5) * 0.8;
+                this.baseVy = -(Math.random() * 2.2 + 1.2);
+                
+                this.vx = this.baseVx;
+                this.vy = this.baseVy;
+                
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.7 + 0.3;
-                this.density = Math.random() * 35 + 15;
+                this.opacity = Math.random() * 0.5 + 0.25; // Opacidade mais suave e sutil
             }
 
             update() {
-                this.y += this.vy;
-                this.x += this.vx;
+                // Transição de velocidade suave (suavização/friction)
+                this.vx += (this.baseVx - this.vx) * 0.05;
+                this.vy += (this.baseVy - this.vy) * 0.05;
 
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
+                // Repulsão suave com amortecimento
                 if (distance < mouse.radius) {
                     const forceDirectionX = dx / distance;
                     const forceDirectionY = dy / distance;
                     const maxDistance = mouse.radius;
                     const force = (maxDistance - distance) / maxDistance;
-                    const directionX = forceDirectionX * force * this.density;
-                    const directionY = forceDirectionY * force * this.density;
-
-                    this.x -= directionX;
-                    this.y -= directionY;
+                    
+                    this.vx -= forceDirectionX * force * 1.5;
+                    this.vy -= forceDirectionY * force * 1.5;
                 }
 
-                if (this.y < -20 || this.x < -40 || this.x > width + 40) {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.y < -30 || this.x < -40 || this.x > width + 40) {
                     this.reset(false);
                 }
             }
@@ -330,7 +340,7 @@
             }
         }
 
-        const heartCount = 380;
+        const heartCount = 350;
         const hearts = [];
         for (let i = 0; i < heartCount; i++) {
             hearts.push(new HeartParticle());
@@ -347,7 +357,7 @@
                 const dx = heart.x - btnX;
                 const dy = heart.y - btnY;
                 const angle = Math.atan2(dy, dx);
-                const force = Math.random() * 25 + 15;
+                const force = Math.random() * 18 + 10;
 
                 heart.vx = Math.cos(angle) * force;
                 heart.vy = Math.sin(angle) * force;
