@@ -154,15 +154,15 @@
 
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
-            <h2>Alta Densidade</h2>
-            <p>Centenas de partículas renderizadas simultaneamente para criar um efeito visual dinâmico e preenchido.</p>
+            <h2>Velocidade Aumentada</h2>
+            <p>Fluxo rápido e contínuo de partículas em movimento ascendente acelerado.</p>
         </div>
     </section>
 
     <section id="servicos" class="content-section">
         <div class="card reveal float-right">
-            <h2>Física de Partículas</h2>
-            <p>Efeito de onda e dispersão responsivo ao menor toque na tela.</p>
+            <h2>Regeneração Instantânea</h2>
+            <p>As partículas renascem imediatamente após a dispersão ou saída da tela.</p>
         </div>
     </section>
 
@@ -196,7 +196,7 @@
         window.addEventListener('resize', resize);
         resize();
 
-        const mouse = { x: -1000, y: -1000, radius: 180 };
+        const mouse = { x: -1000, y: -1000, radius: 220 };
 
         function updateMousePos(x, y) {
             mouse.x = x;
@@ -239,13 +239,17 @@
 
             reset(initial = false) {
                 this.x = Math.random() * width;
-                this.y = initial ? Math.random() * height : height + 20;
-                this.size = Math.random() * 10 + 6;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = -Math.random() * 0.9 - 0.3;
+                // Renasce logo abaixo da borda inferior para regeneração imediata
+                this.y = initial ? Math.random() * height : height + (Math.random() * 20);
+                this.size = Math.random() * 11 + 6;
+                
+                // Aumento significativo na velocidade de subida
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = -(Math.random() * 3.5 + 2.0); 
+                
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.65 + 0.25;
-                this.density = Math.random() * 25 + 10;
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.density = Math.random() * 35 + 15;
             }
 
             update() {
@@ -268,7 +272,8 @@
                     this.y -= directionY;
                 }
 
-                if (this.y < -20 || this.x < -20 || this.x > width + 20) {
+                // Reinicialização rápida ao sair dos limites
+                if (this.y < -20 || this.x < -40 || this.x > width + 40) {
                     this.reset(false);
                 }
             }
@@ -278,8 +283,7 @@
             }
         }
 
-        // Quantidade aumentada para 350 corações
-        const heartCount = 350;
+        const heartCount = 380;
         const hearts = [];
         for (let i = 0; i < heartCount; i++) {
             hearts.push(new HeartParticle());
