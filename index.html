@@ -18,8 +18,9 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f8f5ff 0%, #ede9fe 100%);
-            color: #2e1065;
+            /* Fundo Escuro Profundo com Nuvem Roxa */
+            background: radial-gradient(circle at 50% 20%, #1e1035 0%, #0d0714 60%, #05020a 100%);
+            color: #f3e8ff;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
@@ -61,23 +62,26 @@
             font-size: clamp(2.5rem, 10vw, 5.5rem);
             font-weight: 900;
             letter-spacing: 1px;
-            color: #6d28d9;
+            /* Roxo Néon Vibrante */
+            color: #c084fc;
             margin-bottom: 15px;
             text-transform: uppercase;
-            text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.4), 0 0 40px rgba(147, 51, 234, 0.3);
             word-break: break-word;
             line-height: 1.1;
         }
 
         .text-content p {
-            color: #5b21b6;
+            /* Texto Claro com Alto Contraste */
+            color: #f3e8ff;
             font-size: clamp(1rem, 4vw, 1.25rem);
             line-height: 1.5;
             margin-bottom: 25px;
             font-weight: 500;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* Botões posicionados um embaixo do outro */
+        /* Botões */
         .button-group {
             display: flex;
             flex-direction: column;
@@ -97,32 +101,35 @@
             text-align: center;
         }
 
+        /* Botão Principal: Roxo Vibrante com Néon */
         .btn-primary {
-            background: #8b5cf6;
+            background: #9333ea;
             color: #ffffff;
             border: none;
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
             transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
         }
 
         .btn-primary:hover {
-            background: #7c3aed;
+            background: #a855f7;
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.7);
         }
 
+        /* Botão Secundário: Claro com Borda Roxa */
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: #6d28d9;
-            border: 2px solid #8b5cf6;
-            backdrop-filter: blur(4px);
-            transition: transform 0.2s, background 0.3s, color 0.3s;
+            background: #ffffff;
+            color: #581c87;
+            border: 2px solid #a855f7;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s, background 0.3s, color 0.3s, box-shadow 0.2s;
         }
 
         .btn-secondary:hover {
-            background: #8b5cf6;
-            color: #ffffff;
+            background: #f3e8ff;
+            color: #3b0764;
             transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
         }
 
         .content-section {
@@ -143,40 +150,42 @@
             width: 100%;
         }
 
-        /* Título Grande FORA da Caixinha */
+        /* Título Grande Fora da Caixinha */
         .external-title {
             font-size: clamp(1.6rem, 6vw, 3.2rem);
             font-weight: 900;
-            color: #6d28d9;
+            color: #e9d5ff;
             margin-bottom: 12px;
             text-transform: lowercase;
             letter-spacing: -0.5px;
-            text-shadow: 0 8px 20px rgba(109, 40, 217, 0.12);
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
             pointer-events: auto;
             word-break: break-word;
         }
 
+        /* Card Claro em Fundo Escuro */
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid #c084fc;
             padding: clamp(20px, 5vw, 40px);
             border-radius: 20px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(109, 40, 217, 0.08);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.25), 0 15px 35px rgba(0, 0, 0, 0.5);
             pointer-events: auto;
         }
 
         .card h2 {
-            color: #6d28d9;
+            color: #581c87;
             margin-bottom: 10px;
             font-size: clamp(1.2rem, 4.5vw, 1.8rem);
         }
 
         .card p {
-            color: #4c1d95;
+            color: #3b0764;
             line-height: 1.5;
             font-size: clamp(0.9rem, 3.5vw, 1rem);
+            font-weight: 600;
         }
 
         .reveal {
@@ -212,7 +221,6 @@
 
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
-            <!-- Título em duas linhas -->
             <h1 id="hero-title">TITULO<br>TESTE</h1>
             <p>passe o dedo nos corações para eles se mecherem!!!!</p>
             <div class="button-group">
@@ -224,7 +232,6 @@
 
     <section id="sobre" class="content-section">
         <div class="section-container reveal float-left">
-            <!-- Título Grande Fora da Caixinha -->
             <h2 class="external-title">oque mudou???????????</h2>
             
             <div class="card">
@@ -306,7 +313,8 @@
             ctx.restore();
         }
 
-        const colors = ['#a855f7', '#c084fc', '#d8b4fe', '#c084fc', '#e9d5ff', '#a855f7'];
+        /* Cores dos Corações (Com Tons Néon para se Destacarem no Fundo Escuro) */
+        const colors = ['#c084fc', '#e9d5ff', '#a855f7', '#f472b6', '#ffffff', '#d8b4fe'];
 
         class HeartParticle {
             constructor() {
@@ -325,7 +333,7 @@
                 this.vy = this.baseVy;
                 
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.5 + 0.25;
+                this.opacity = Math.random() * 0.6 + 0.35;
             }
 
             update() {
