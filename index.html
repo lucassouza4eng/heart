@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITULO</title>
+    <title>TESTE - Sandbox 3D</title>
     
-    <!-- Bibliotecas Three.js para o 3D -->
+    <!-- Bibliotecas Three.js para renderização 3D -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
@@ -18,12 +18,14 @@
         }
 
         body {
-            background-color: #0f0715;
-            color: #ffffff;
+            /* Fundo roxo muito claro e luminoso */
+            background: linear-gradient(135deg, #f8f5ff 0%, #ede9fe 100%);
+            color: #2e1065;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Seção Hero */
+        /* Seção Principal (Hero) */
         .hero-section {
             display: flex;
             align-items: center;
@@ -34,8 +36,9 @@
         }
 
         .text-content {
-            max-width: 600px;
+            max-width: 500px;
             z-index: 10;
+            pointer-events: auto;
         }
 
         /* Título Grande */
@@ -43,75 +46,88 @@
             font-size: 6rem;
             font-weight: 900;
             letter-spacing: 2px;
-            color: #ffffff;
+            color: #6d28d9;
             margin-bottom: 20px;
             text-transform: uppercase;
+            text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
         }
 
         .text-content p {
-            color: #c084fc;
-            font-size: 1.2rem;
+            color: #5b21b6;
+            font-size: 1.25rem;
             line-height: 1.6;
             margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .btn-primary {
-            background: #9333ea;
+            background: #8b5cf6;
             color: #ffffff;
             border: none;
             padding: 14px 32px;
             font-size: 1.1rem;
+            font-weight: bold;
             border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
-            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
         }
 
         .btn-primary:hover {
-            background: #a855f7;
+            background: #7c3aed;
             transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
         }
 
-        /* Container do Coração 3D com efeito Blur/Desfoque */
+        /* Container Sandbox 3D com desfoque inicial */
         #canvas-container {
-            width: 50vw;
-            height: 70vh;
-            filter: blur(8px); /* Aplica o desfoque inicial quando o título está visível */
+            width: 55vw;
+            height: 75vh;
+            filter: blur(6px); /* Efeito desfoque */
             transition: filter 0.5s ease-out;
+            cursor: grab;
+            z-index: 5;
         }
 
-        /* Quando o coração estiver com foco ao passar o mouse ou interagir */
+        #canvas-container:active {
+            cursor: grabbing;
+        }
+
         #canvas-container:hover {
-            filter: blur(0px);
+            filter: blur(0px); /* Foca ao passar o mouse */
         }
 
-        /* Seções de Conteúdo */
+        /* Seções de Conteúdo Claras */
         .content-section {
             min-height: 80vh;
             display: flex;
             align-items: center;
             padding: 0 8%;
+            position: relative;
+            z-index: 10;
         }
 
         .card {
-            background: rgba(147, 51, 234, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: #ffffff;
+            border: 1px solid rgba(139, 92, 246, 0.15);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 24px;
             max-width: 500px;
-            backdrop-filter: blur(5px);
+            box-shadow: 0 20px 40px rgba(109, 40, 217, 0.08);
         }
 
         .card h2 {
-            color: #e9d5ff;
+            color: #6d28d9;
             margin-bottom: 15px;
+            font-size: 1.8rem;
         }
 
         .card p {
-            color: #d8b4fe;
+            color: #4c1d95;
+            line-height: 1.6;
         }
 
-        /* Animações ao Rolar */
+        /* Animações de Scroll */
         .reveal {
             opacity: 0;
             transition: all 0.8s ease-out;
@@ -138,31 +154,31 @@
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TESTE</h1>
-            <p>site feito com todo amor e carinho do mundo</p>
-            <button class="btn-primary">clique aqui pra saber mais sobre o site ↗</button>
+            <p>Explore o ambiente sandbox interativo! Arraste com o mouse para girar a cena e observar os corações 3D.</p>
+            <button class="btn-primary">Clique aqui ↗</button>
         </div>
         
-        <!-- Container do Coração 3D -->
+        <!-- Container Sandbox 3D -->
         <div id="canvas-container"></div>
     </section>
 
-    <!-- Seções com Animação ao Rolar -->
+    <!-- Seções com Animação ao Rolar a Página -->
     <section id="sobre" class="content-section">
         <div class="card reveal float-left">
             <h2>Tecnologia Dinâmica</h2>
-            <p>Conforme você navega pela página, o conteúdo reage ao movimento para criar uma experiência fluida.</p>
+            <p>Conforme você navega pela página, o conteúdo reage ao movimento para criar uma experiência fluida e interativa.</p>
         </div>
     </section>
 
     <section id="servicos" class="content-section">
         <div class="card reveal float-right">
             <h2>Design & Performance</h2>
-            <p>Integração perfeita entre interfaces limpas e elementos 3D de alta performance.</p>
+            <p>Integração perfeita entre interfaces limpas, cores iluminadas e elementos 3D interativos em formato sandbox.</p>
         </div>
     </section>
 
     <script>
-        // --- CONFIGURAÇÃO DO SCROLL INTERATIVO ---
+        // --- ANIMAÇÃO DE SCROLL E DESFOQUE ---
         const container = document.getElementById('canvas-container');
 
         window.addEventListener('scroll', () => {
@@ -177,25 +193,25 @@
                 }
             });
 
-            // Move ligeiramente o título ao rolar
+            // Efeito de movimento no título ao rolar
             const heroTitle = document.getElementById('hero-title');
             if (heroTitle) {
                 heroTitle.style.transform = `translateX(${scrollPos * 0.15}px)`;
             }
 
-            // Remove o desfoque do coração conforme você rola a página para baixo
+            // Remove o desfoque conforme rola para baixo
             if (scrollPos > 100) {
                 container.style.filter = 'blur(0px)';
             } else {
-                container.style.filter = 'blur(8px)';
+                container.style.filter = 'blur(6px)';
             }
         });
 
-        // --- CRIAÇÃO DO CORAÇÃO 3D (THREE.JS) ---
+        // --- RENDERIZAÇÃO SANDBOX 3D (THREE.JS) ---
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.z = 4;
+        camera.position.set(0, 0, 7);
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
@@ -204,9 +220,10 @@
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.enableZoom = false;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = true; // Permite dar zoom para explorar a sandbox
 
-        // Geometria do Coração
+        // Desenho da Forma do Coração
         const heartShape = new THREE.Shape();
         heartShape.moveTo(0, 0);
         heartShape.bezierCurveTo(0, 0.5, 0.5, 1, 1, 1);
@@ -228,35 +245,72 @@
         const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
         geometry.center();
 
-        const material = new THREE.MeshPhongMaterial({
-            color: 0x9333ea,
-            emissive: 0x3b0764,
-            specular: 0xffffff,
-            shininess: 100
+        // Materiais em tons de Roxo e Rosa
+        const materials = [
+            new THREE.MeshPhongMaterial({ color: 0x8b5cf6, emissive: 0x4c1d95, specular: 0xffffff, shininess: 90 }),
+            new THREE.MeshPhongMaterial({ color: 0xa855f7, emissive: 0x581c87, specular: 0xffffff, shininess: 100 }),
+            new THREE.MeshPhongMaterial({ color: 0xc084fc, emissive: 0x6b21a8, specular: 0xffffff, shininess: 80 }),
+            new THREE.MeshPhongMaterial({ color: 0xd8b4fe, emissive: 0x7e22ce, specular: 0xffffff, shininess: 95 })
+        ];
+
+        // Definição dos Múltiplos Corações na Sandbox
+        const heartsData = [
+            { x: 0,    y: 0,    z: 0,    scale: 1.0, speedY: 0.01,  matIndex: 0, floatSpeed: 1.5 }, // Coração Principal
+            { x: -2.8, y: 1.5,  z: -1.5, scale: 0.6, speedY: 0.015, matIndex: 1, floatSpeed: 2.0 },
+            { x: 2.5,  y: -1.2, z: -1.0, scale: 0.7, speedY: 0.008, matIndex: 2, floatSpeed: 1.2 },
+            { x: -2.0, y: -2.0, z: 1.0,  scale: 0.5, speedY: 0.012, matIndex: 3, floatSpeed: 1.8 },
+            { x: 2.2,  y: 1.8,  z: 0.8,  scale: 0.55,speedY: 0.018, matIndex: 0, floatSpeed: 2.2 }
+        ];
+
+        const hearts = [];
+
+        heartsData.forEach((data, index) => {
+            const mesh = new THREE.Mesh(geometry, materials[data.matIndex]);
+            mesh.position.set(data.x, data.y, data.z);
+            mesh.scale.set(data.scale, data.scale, data.scale);
+            scene.add(mesh);
+
+            hearts.push({
+                mesh: mesh,
+                baseY: data.y,
+                speedY: data.speedY,
+                floatSpeed: data.floatSpeed,
+                offset: index * 1000 // Deslocamento de tempo para flutuações variadas
+            });
         });
 
-        const heartMesh = new THREE.Mesh(geometry, material);
-        // Corrigido a rotação para ficar virado para cima na orientação certa
-        heartMesh.rotation.z = Math.PI;
-        scene.add(heartMesh);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        // Iluminação Completa do Cenário
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
         scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0xc084fc, 2);
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
+        const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
+        pointLight1.position.set(5, 5, 5);
+        scene.add(pointLight1);
 
-        function animate() {
+        const pointLight2 = new THREE.PointLight(0xc084fc, 0.8);
+        pointLight2.position.set(-5, -5, 2);
+        scene.add(pointLight2);
+
+        // Animação Contínua da Sandbox
+        function animate(time) {
             requestAnimationFrame(animate);
-            // Gira no eixo vertical corretamente
-            heartMesh.rotation.y += 0.01;
+
+            // Animação individual de cada coração
+            hearts.forEach((h) => {
+                // Rotação suave em pé
+                h.mesh.rotation.y += h.speedY;
+
+                // Flutuação senoidal suave para cima e para baixo
+                h.mesh.position.y = h.baseY + Math.sin((time * 0.001 * h.floatSpeed) + h.offset) * 0.25;
+            });
+
             controls.update();
             renderer.render(scene, camera);
         }
 
-        animate();
+        animate(0);
 
+        // Ajuste Responsivo da Janela
         window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
