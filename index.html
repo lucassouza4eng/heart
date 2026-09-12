@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>testeeeeeeeeeeeeeeeeeeeeeeee</title>
+    <title>testeeeeeeeeeeeeeeeeeeeeeeeee</title>
 
     <style>
         * {
@@ -45,7 +45,7 @@
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            padding: 0 8%;
+            padding: 0 6%;
             position: relative;
             z-index: 10;
             pointer-events: none;
@@ -53,45 +53,52 @@
 
         .text-content {
             max-width: 600px;
+            width: 100%;
             pointer-events: auto;
         }
 
         .text-content h1 {
-            font-size: 6rem;
+            font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: #6d28d9;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-transform: uppercase;
             text-shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
+            word-break: break-word;
         }
 
         .text-content p {
             color: #5b21b6;
-            font-size: 1.25rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            line-height: 1.5;
+            margin-bottom: 25px;
             font-weight: 500;
         }
 
         .button-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            user-select: none;
+            flex: 1 1 auto;
+            text-align: center;
         }
 
         .btn-primary {
             background: #8b5cf6;
             color: #ffffff;
             border: none;
-            padding: 16px 32px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
             transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
-            user-select: none;
         }
 
         .btn-primary:hover {
@@ -100,23 +107,12 @@
             box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
         }
 
-        .btn-primary:active {
-            transform: translateY(1px);
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
-        }
-
         .btn-secondary {
             background: rgba(255, 255, 255, 0.8);
             color: #6d28d9;
             border: 2px solid #8b5cf6;
-            padding: 16px 32px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
             backdrop-filter: blur(4px);
             transition: transform 0.2s, background 0.3s, color 0.3s;
-            user-select: none;
         }
 
         .btn-secondary:hover {
@@ -125,15 +121,11 @@
             transform: translateY(-3px);
         }
 
-        .btn-secondary:active {
-            transform: translateY(1px);
-        }
-
         .content-section {
             min-height: 80vh;
             display: flex;
             align-items: center;
-            padding: 0 8%;
+            padding: 40px 6%;
             position: relative;
             z-index: 10;
             pointer-events: none;
@@ -144,26 +136,28 @@
             flex-direction: column;
             align-items: flex-start;
             max-width: 500px;
+            width: 100%;
         }
 
         /* Título Grande FORA da Caixinha */
         .external-title {
-            font-size: 3.2rem;
+            font-size: clamp(1.6rem, 6vw, 3.2rem);
             font-weight: 900;
             color: #6d28d9;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-transform: lowercase;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             text-shadow: 0 8px 20px rgba(109, 40, 217, 0.12);
             pointer-events: auto;
+            word-break: break-word;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(139, 92, 246, 0.2);
-            padding: 40px;
-            border-radius: 24px;
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: 20px;
             width: 100%;
             box-shadow: 0 20px 40px rgba(109, 40, 217, 0.08);
             pointer-events: auto;
@@ -171,13 +165,14 @@
 
         .card h2 {
             color: #6d28d9;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-size: clamp(1.2rem, 4.5vw, 1.8rem);
         }
 
         .card p {
             color: #4c1d95;
-            line-height: 1.6;
+            line-height: 1.5;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
         }
 
         .reveal {
@@ -191,12 +186,19 @@
         }
 
         .float-left {
-            transform: translateX(-100px);
+            transform: translateX(-40px);
         }
 
         .float-right {
-            transform: translateX(100px);
+            transform: translateX(40px);
             margin-left: auto;
+        }
+
+        @media (max-width: 600px) {
+            .float-left, .float-right {
+                transform: translateY(30px);
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -207,10 +209,10 @@
     <section id="home" class="hero-section">
         <div class="text-content reveal active">
             <h1 id="hero-title">TITULO TESTE</h1>
-            <p>passe o dedo nos corações para eles se mecherem!!!!  </p>
+            <p>passe o dedo nos corações para eles se mecherem!!!!</p>
             <div class="button-group">
-                <button id="action-btn" class="btn-primary">explodir corações </button>
-                <button id="scroll-btn" class="btn-secondary">descer pagina </button>
+                <button id="action-btn" class="btn-primary">explodir corações</button>
+                <button id="scroll-btn" class="btn-secondary">descer pagina</button>
             </div>
         </div>
     </section>
@@ -221,16 +223,16 @@
             <h2 class="external-title">oque mudou???????????</h2>
             
             <div class="card">
-                <h2>coloquei mais velocidade nos corações e mais suavidade </h2>
-                <p>coloquei algumas coisas novas, acho que voce vai perceber comforme voce vai mechendo </p>
+                <h2>coloquei mais velocidade nos corações e mais suavidade</h2>
+                <p>coloquei algumas coisas novas, acho que voce vai perceber comforme voce vai mechendo</p>
             </div>
         </div>
     </section>
 
     <section id="servicos" class="content-section">
-        <div class="card reveal float-right">
-            <h2>regeneração Instantânea</h2>
-            <p>as partículas renascem imediatamente após a dispersão ou saída da tela.</p>
+        <div class="card reveal float-right" style="max-width: 500px;">
+            <h2>Regeneração Instantânea</h2>
+            <p>As partículas renascem imediatamente após a dispersão ou saída da tela.</p>
         </div>
     </section>
 
@@ -242,13 +244,13 @@
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
+                if (elementTop < windowHeight - 80) {
                     el.classList.add('active');
                 }
             });
 
             const heroTitle = document.getElementById('hero-title');
-            if (heroTitle) {
+            if (heroTitle && window.innerWidth > 600) {
                 heroTitle.style.transform = `translateX(${scrollPos * 0.12}px)`;
             }
         });
@@ -264,7 +266,7 @@
         window.addEventListener('resize', resize);
         resize();
 
-        const mouse = { x: -1000, y: -1000, radius: 200 };
+        const mouse = { x: -1000, y: -1000, radius: 150 };
 
         function updateMousePos(x, y) {
             mouse.x = x;
@@ -278,6 +280,7 @@
             }
         });
         window.addEventListener('mouseleave', () => updateMousePos(-1000, -1000));
+        window.addEventListener('touchend', () => updateMousePos(-1000, -1000));
 
         function drawHeart(ctx, x, y, size, color, opacity) {
             ctx.save();
@@ -308,10 +311,10 @@
             reset(initial = false) {
                 this.x = Math.random() * width;
                 this.y = initial ? Math.random() * height : height + (Math.random() * 30);
-                this.size = Math.random() * 9 + 5;
+                this.size = Math.random() * 8 + 4;
                 
                 this.baseVx = (Math.random() - 0.5) * 0.8;
-                this.baseVy = -(Math.random() * 2.2 + 1.2);
+                this.baseVy = -(Math.random() * 2 + 1);
                 
                 this.vx = this.baseVx;
                 this.vy = this.baseVy;
@@ -351,7 +354,7 @@
             }
         }
 
-        const heartCount = 350;
+        const heartCount = window.innerWidth < 600 ? 180 : 350;
         const hearts = [];
         for (let i = 0; i < heartCount; i++) {
             hearts.push(new HeartParticle());
@@ -367,7 +370,7 @@
                 const dx = heart.x - btnX;
                 const dy = heart.y - btnY;
                 const angle = Math.atan2(dy, dx);
-                const force = Math.random() * 18 + 10;
+                const force = Math.random() * 16 + 8;
 
                 heart.vx = Math.cos(angle) * force;
                 heart.vy = Math.sin(angle) * force;
