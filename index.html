@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programas Interativos</title>
+    <title>TITULO</title>
     
     <!-- Bibliotecas Three.js para o 3D -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -23,42 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(15, 7, 21, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #a855f7;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: #e9d5ff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #a855f7;
-        }
-
         /* Seção Hero */
         .hero-section {
             display: flex;
@@ -66,22 +30,27 @@
             justify-content: space-between;
             min-height: 100vh;
             padding: 0 8%;
+            position: relative;
         }
 
         .text-content {
-            max-width: 500px;
+            max-width: 600px;
             z-index: 10;
         }
 
+        /* Título Grande */
         .text-content h1 {
-            font-size: 3.5rem;
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 2px;
             color: #ffffff;
             margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
         .text-content p {
             color: #c084fc;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 30px;
         }
@@ -90,8 +59,8 @@
             background: #9333ea;
             color: #ffffff;
             border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
+            padding: 14px 32px;
+            font-size: 1.1rem;
             border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
@@ -103,10 +72,17 @@
             transform: translateY(-3px);
         }
 
-        /* Canvas 3D */
+        /* Container do Coração 3D com efeito Blur/Desfoque */
         #canvas-container {
             width: 50vw;
             height: 70vh;
+            filter: blur(8px); /* Aplica o desfoque inicial quando o título está visível */
+            transition: filter 0.5s ease-out;
+        }
+
+        /* Quando o coração estiver com foco ao passar o mouse ou interagir */
+        #canvas-container:hover {
+            filter: blur(0px);
         }
 
         /* Seções de Conteúdo */
@@ -158,21 +134,10 @@
 </head>
 <body>
 
-    <!-- Menu Superior -->
-    <nav class="navbar">
-        <div class="logo">💜 Interativo</div>
-        <ul class="nav-links">
-            <li><a href="#home">Início</a></li>
-            <li><a href="#sobre">Sobre Nós</a></li>
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#contato">Contato</a></li>
-        </ul>
-    </nav>
-
     <!-- Seção Principal -->
     <section id="home" class="hero-section">
-        <div class="text-content reveal">
-            <h1 id="hero-title">Programas Interativos</h1>
+        <div class="text-content reveal active">
+            <h1 id="hero-title">TESTE</h1>
             <p>Descubra soluções modernas com experiências visuais imersivas e interatividade em tempo real.</p>
             <button class="btn-primary">Clique aqui ↗</button>
         </div>
@@ -198,6 +163,8 @@
 
     <script>
         // --- CONFIGURAÇÃO DO SCROLL INTERATIVO ---
+        const container = document.getElementById('canvas-container');
+
         window.addEventListener('scroll', () => {
             const reveals = document.querySelectorAll('.reveal');
             const scrollPos = window.scrollY;
@@ -210,14 +177,21 @@
                 }
             });
 
+            // Move ligeiramente o título ao rolar
             const heroTitle = document.getElementById('hero-title');
             if (heroTitle) {
                 heroTitle.style.transform = `translateX(${scrollPos * 0.15}px)`;
             }
+
+            // Remove o desfoque do coração conforme você rola a página para baixo
+            if (scrollPos > 100) {
+                container.style.filter = 'blur(0px)';
+            } else {
+                container.style.filter = 'blur(8px)';
+            }
         });
 
         // --- CRIAÇÃO DO CORAÇÃO 3D (THREE.JS) ---
-        const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -232,6 +206,7 @@
         controls.enableDamping = true;
         controls.enableZoom = false;
 
+        // Geometria do Coração
         const heartShape = new THREE.Shape();
         heartShape.moveTo(0, 0);
         heartShape.bezierCurveTo(0, 0.5, 0.5, 1, 1, 1);
@@ -261,7 +236,8 @@
         });
 
         const heartMesh = new THREE.Mesh(geometry, material);
-        heartMesh.rotation.x = Math.PI;
+        // Corrigido a rotação para ficar virado para cima na orientação certa
+        heartMesh.rotation.z = Math.PI;
         scene.add(heartMesh);
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -273,7 +249,8 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            heartMesh.rotation.y += 0.008;
+            // Gira no eixo vertical corretamente
+            heartMesh.rotation.y += 0.01;
             controls.update();
             renderer.render(scene, camera);
         }
