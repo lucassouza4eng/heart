@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto - Login Especial</title>
+    <title>feito com amor para uma pessoa maravilhosa</title>
 
     <style>
         * {
@@ -18,12 +18,27 @@
             background-color: #f8bbd0; 
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow: hidden; /* Mantém a tela travada e limpa */
+            overflow-x: hidden; 
+            overflow-y: hidden; /* Trava o scroll no começo */
+            transition: background 0.5s;
         }
 
-        /* O Container da caixinha de login */
+        /* --- TELA DE LOGIN --- */
+        #telaLogin {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
         .caixa-senha {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(10px);
@@ -35,26 +50,22 @@
             max-width: 350px;
             box-shadow: 0 15px 35px rgba(106, 27, 154, 0.1);
 
-            /* ESTADO INICIAL (Escondido, Desfocado e um pouco para baixo) */
             opacity: 0;
             transform: translateY(50px) scale(0.9);
-            filter: blur(15px); /* O efeito de desfoque */
-            
-            /* ANIMAÇÃO EXTREMAMENTE FLUIDA */
+            filter: blur(15px); 
             transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
-            pointer-events: none; /* Evita clicar antes de aparecer */
+            pointer-events: none; 
         }
 
-        /* ESTADO FINAL (Quando a classe .visivel é adicionada) */
         .caixa-senha.visivel {
             opacity: 1;
             transform: translateY(0) scale(1);
-            filter: blur(0px); /* Tira o desfoque */
+            filter: blur(0px); 
             pointer-events: auto;
         }
 
         .caixa-senha h2 {
-            color: #6a1b9a; /* Roxo */
+            color: #6a1b9a;
             font-size: 1.5rem;
             margin-bottom: 25px;
             font-weight: 800;
@@ -97,26 +108,116 @@
             transform: scale(0.95);
             background: #6a1b9a;
         }
+
+        /* --- CONTEÚDO DAS CARTAS --- */
+        #conteudoCartas {
+            display: none; /* Escondido até acertar a senha */
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            padding: 80px 5% 100px 5%;
+            gap: 40px;
+        }
+
+        .carta {
+            background: #ffffff;
+            border-radius: 12px; /* Bordas um pouco menos redondas, estilo papel */
+            padding: 30px;
+            width: 85%;
+            box-shadow: 2px 10px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            
+            /* Detalhe bonitinho no canto como se fosse uma margem de carta */
+            border-left: 6px solid #8e24aa; 
+            
+            /* Estado Inicial da Animação */
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Carta na Esquerda */
+        .carta.esquerda {
+            align-self: flex-start;
+            transform: translateX(-50px) translateY(30px);
+        }
+
+        /* Carta na Direita */
+        .carta.direita {
+            align-self: flex-end;
+            transform: translateX(50px) translateY(30px);
+            border-left: none;
+            border-right: 6px solid #8e24aa; /* Borda inverte de lado */
+            text-align: right;
+        }
+
+        /* Quando a carta aparece na tela */
+        .carta.visivel {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
+
+        /* Textos dentro da carta */
+        .carta h3 {
+            color: #6a1b9a;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .carta p {
+            color: #4a148c;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Caixinha que vai aparecer -->
-    <div class="caixa-senha" id="caixaSenha">
-        <h2>Acesso Restrito</h2>
-        <input type="text" id="inputLogin" placeholder="Login">
-        <input type="password" id="inputSenha" placeholder="Senha">
-        <button id="btnEntrar">Entrar</button>
+    <!-- TELA DE LOGIN -->
+    <div id="telaLogin">
+        <div class="caixa-senha" id="caixaSenha">
+            <h2>Acesso Restrito</h2>
+            <input type="text" id="inputLogin" placeholder="Login">
+            <input type="password" id="inputSenha" placeholder="Senha">
+            <button id="btnEntrar">Entrar</button>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL (AS CARTAS) -->
+    <div id="conteudoCartas">
+        
+        <!-- Carta 1 (Esquerda) -->
+        <div class="carta esquerda">
+            <h3>Para você...</h3>
+            <p>Escrevi essas pequenas cartas porque precisava de um espaço só nosso para te dizer algumas coisas importantes.</p>
+        </div>
+
+        <!-- Carta 2 (Direita) -->
+        <div class="carta direita">
+            <h3>Seu Sorriso</h3>
+            <p>Toda vez que eu vejo você sorrir, meu dia muda completamente. É a coisa mais linda do mundo.</p>
+        </div>
+
+        <!-- Carta 3 (Esquerda) -->
+        <div class="carta esquerda">
+            <h3>Nosso Tempo</h3>
+            <p>Sabe quando a gente começa a conversar e parece que o tempo voa? Eu amo essa sensação com você.</p>
+        </div>
+
+        <!-- Carta 4 (Direita) -->
+        <div class="carta direita">
+            <h3>Uma Promessa</h3>
+            <p>Ainda vamos viver muitas coisas incríveis juntos. E eu vou estar aqui para cada um desses momentos.</p>
+        </div>
+
     </div>
 
     <script>
-        // Função que roda assim que o site carrega
+        // Faz a caixinha aparecer após 1 segundo
         window.onload = () => {
-            const caixa = document.getElementById('caixaSenha');
-            
-            // Espera exatamente 1 segundo para iniciar a animação
             setTimeout(() => {
-                caixa.classList.add('visivel');
+                document.getElementById('caixaSenha').classList.add('visivel');
             }, 1000);
         };
 
@@ -125,17 +226,51 @@
             const loginDigitado = document.getElementById('inputLogin').value;
             const senhaDigitada = document.getElementById('inputSenha').value;
             
-            // Suas credenciais exatas
-            const loginCorreto = "yasminlindaperfeita123";
-            const senhaCorreta = "2454";
+            // Suas credenciais exatas conforme o seu print!
+            const loginCorreto = "yaasssmin";
+            const senhaCorreta = "22";
 
             if (loginDigitado === loginCorreto && senhaDigitada === senhaCorreta) {
-                alert("Acesso liberado! Em breve colocaremos o resto do site aqui.");
-                // Mais para frente, colocaremos o código aqui para esconder o login e mostrar o site
+                // 1. Esconde a tela de login suavemente
+                const telaLogin = document.getElementById('telaLogin');
+                telaLogin.style.opacity = '0';
+                
+                setTimeout(() => {
+                    telaLogin.style.visibility = 'hidden';
+                    telaLogin.style.display = 'none';
+                    
+                    // 2. Libera o scroll e mostra a área das cartas
+                    document.body.style.overflowY = 'auto';
+                    document.getElementById('conteudoCartas').style.display = 'flex';
+                    
+                    // 3. Ativa as animações de revelar as cartas conforme desce a tela
+                    observarCartas();
+                }, 800); // Tempo para a animação do login sumindo terminar
+                
             } else {
                 alert("Login ou senha incorretos. Tente novamente.");
             }
         });
+
+        // Função mágica que faz as cartas aparecerem suavemente
+        function observarCartas() {
+            const cartas = document.querySelectorAll('.carta');
+            
+            // O Observer vigia quando a carta entra na tela do celular
+            const observer = new IntersectionObserver((entradas) => {
+                entradas.forEach(entrada => {
+                    if (entrada.isIntersecting) {
+                        entrada.target.classList.add('visivel');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Ativa quando 10% da carta aparece
+            });
+
+            cartas.forEach(carta => {
+                observer.observe(carta);
+            });
+        }
     </script>
 </body>
 </html>
