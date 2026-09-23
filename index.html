@@ -3,24 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Limpo</title>
+    <title>Projeto - Login Especial</title>
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            /* Fundo Rosa Sólido e Totalmente Limpo */
+            /* Fundo Rosa Sólido e Limpo */
             background-color: #f8bbd0; 
             min-height: 100vh;
-            overflow: hidden; /* Evita qualquer barra de rolagem */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Mantém a tela travada e limpa */
+        }
+
+        /* O Container da caixinha de login */
+        .caixa-senha {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(142, 36, 170, 0.2);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 15px 35px rgba(106, 27, 154, 0.1);
+
+            /* ESTADO INICIAL (Escondido, Desfocado e um pouco para baixo) */
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            filter: blur(15px); /* O efeito de desfoque */
+            
+            /* ANIMAÇÃO EXTREMAMENTE FLUIDA */
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
+            pointer-events: none; /* Evita clicar antes de aparecer */
+        }
+
+        /* ESTADO FINAL (Quando a classe .visivel é adicionada) */
+        .caixa-senha.visivel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px); /* Tira o desfoque */
+            pointer-events: auto;
+        }
+
+        .caixa-senha h2 {
+            color: #6a1b9a; /* Roxo */
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .caixa-senha input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid rgba(142, 36, 170, 0.3);
+            background: rgba(255, 255, 255, 0.8);
+            color: #4a148c;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+
+        .caixa-senha input:focus {
+            border-color: #8e24aa;
+        }
+
+        .caixa-senha button {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            border: none;
+            background: #8e24aa;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(142, 36, 170, 0.3);
+            transition: transform 0.2s, background 0.3s;
+            margin-top: 10px;
+        }
+
+        .caixa-senha button:active {
+            transform: scale(0.95);
+            background: #6a1b9a;
         }
     </style>
 </head>
 <body>
-    <!-- A página está vazia, aparecendo apenas o fundo rosa -->
+
+    <!-- Caixinha que vai aparecer -->
+    <div class="caixa-senha" id="caixaSenha">
+        <h2>Acesso Restrito</h2>
+        <input type="text" id="inputLogin" placeholder="Login">
+        <input type="password" id="inputSenha" placeholder="Senha">
+        <button id="btnEntrar">Entrar</button>
+    </div>
+
+    <script>
+        // Função que roda assim que o site carrega
+        window.onload = () => {
+            const caixa = document.getElementById('caixaSenha');
+            
+            // Espera exatamente 1 segundo para iniciar a animação
+            setTimeout(() => {
+                caixa.classList.add('visivel');
+            }, 1000);
+        };
+
+        // Lógica de verificação do Login e Senha
+        document.getElementById('btnEntrar').addEventListener('click', () => {
+            const loginDigitado = document.getElementById('inputLogin').value;
+            const senhaDigitada = document.getElementById('inputSenha').value;
+            
+            // Suas credenciais exatas
+            const loginCorreto = "yasminlindaperfeita123";
+            const senhaCorreta = "2454";
+
+            if (loginDigitado === loginCorreto && senhaDigitada === senhaCorreta) {
+                alert("Acesso liberado! Em breve colocaremos o resto do site aqui.");
+                // Mais para frente, colocaremos o código aqui para esconder o login e mostrar o site
+            } else {
+                alert("Login ou senha incorretos. Tente novamente.");
+            }
+        });
+    </script>
 </body>
 </html>
