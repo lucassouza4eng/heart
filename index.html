@@ -3,234 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novo Projeto Limpo</title>
+    <title>Projeto Limpo</title>
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
             /* Fundo Rosa Sólido e Totalmente Limpo */
             background-color: #f8bbd0; 
-            color: #4a148c; /* Roxo escuro para leitura */
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Container principal 100% focado na vertical */
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 6%;
-            width: 100%;
-        }
-
-        /* Título grande, roxo e em duas linhas */
-        .hero-section h1 {
-            font-size: clamp(3rem, 12vw, 5.5rem);
-            font-weight: 900;
-            color: #6a1b9a; /* Roxo aparente */
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 0 4px 15px rgba(106, 27, 154, 0.2);
-        }
-
-        .hero-section p {
-            color: #4a148c;
-            font-size: clamp(1rem, 4.5vw, 1.2rem);
-            font-weight: 600;
-            margin-bottom: 40px;
-            max-width: 320px;
-        }
-
-        /* Botões um embaixo do outro */
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 280px;
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            text-align: center;
-            border: none;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
-            user-select: none;
-            width: 100%;
-        }
-
-        /* Botão roxo com texto claro */
-        .btn-primary {
-            background: #8e24aa;
-            color: #ffffff;
-            box-shadow: 0 8px 20px rgba(142, 36, 170, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.96);
-            background: #6a1b9a;
-        }
-
-        /* Botão claro com texto/borda roxa */
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.7);
-            color: #8e24aa;
-            border: 2px solid #8e24aa;
-            backdrop-filter: blur(5px);
-        }
-
-        .btn-secondary:active {
-            transform: scale(0.96);
-            background: #8e24aa;
-            color: #ffffff;
-        }
-
-        /* Seções de conteúdo na vertical */
-        .content-section {
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 6%;
-            width: 100%;
-        }
-
-        /* Título fora da caixinha */
-        .external-title {
-            font-size: clamp(2rem, 8vw, 3.2rem);
-            font-weight: 900;
-            color: #6a1b9a; /* Roxo */
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 10px rgba(106, 27, 154, 0.15);
-        }
-
-        /* Caixinhas de conteúdo (claras) */
-        .card {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(142, 36, 170, 0.2);
-            border-radius: 24px;
-            padding: 40px 30px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(106, 27, 154, 0.1);
-        }
-
-        .card h2 {
-            color: #6a1b9a;
-            font-size: clamp(1.3rem, 5vw, 1.6rem);
-            margin-bottom: 15px;
-            font-weight: 800;
-        }
-
-        .card p {
-            color: #4a148c;
-            font-size: 1rem;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
-        /* Animação MUITO fluida ao rolar a página */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Curva de animação bem suave */
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+            overflow: hidden; /* Evita qualquer barra de rolagem */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <section id="home" class="hero-section">
-            <div class="reveal active">
-                <!-- Título em duas linhas -->
-                <h1>TITULO<br>TESTE</h1>
-                <p>Design limpo e cores ajustadas.</p>
-                
-                <!-- Botões um embaixo do outro -->
-                <div class="button-group">
-                    <button id="action-btn" class="btn-primary">Ação Principal</button>
-                    <button id="scroll-btn" class="btn-secondary">descer página</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="sobre" class="content-section">
-            <div class="reveal" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                
-                <!-- Título fora da caixinha -->
-                <h2 class="external-title">oque mudou???????????</h2>
-                
-                <div class="card">
-                    <h2>Fundo Limpo e Elegante</h2>
-                    <p>Agora o site possui um fundo rosa sólido e 100% limpo, sem nenhuma distração.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="servicos" class="content-section">
-            <div class="reveal card">
-                <h2>Extrema Fluidez</h2>
-                <p>O site continua muito suave. Conforme você desce a tela, os elementos aparecem de forma leve e orgânica.</p>
-            </div>
-        </section>
-
-    </div>
-
-    <script>
-        // Funcionalidade do botão de descer a página
-        document.getElementById('scroll-btn').addEventListener('click', () => {
-            document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // Animação fluida para fazer os elementos aparecerem ao rolar a tela
-        window.addEventListener('scroll', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            const windowHeight = window.innerHeight;
-
-            reveals.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                // Quando o elemento entra na área visível da tela
-                if (elementTop < windowHeight - 80) {
-                    el.classList.add('active');
-                }
-            });
-        });
-    </script>
+    <!-- A página está vazia, aparecendo apenas o fundo rosa -->
 </body>
 </html>
